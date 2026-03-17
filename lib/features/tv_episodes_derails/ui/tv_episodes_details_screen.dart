@@ -11,17 +11,7 @@ class TvEpisodesDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final int tvShowId = args['tvShowId'];
-    final int seasonNumber = args['seasonNumber'];
-    final int episodeNumber = args['episodeNumber'];
-
-    return BlocProvider(
-      create: (context) => EpisodeDetailsCubit()
-        ..getEpisodeDetails(tvShowId, seasonNumber, episodeNumber),
-      child: Scaffold(
-
+    return Scaffold(
         body: BlocBuilder<EpisodeDetailsCubit, EpisodeDetailsState>(
           builder: (context, state) {
             if (state is EpisodeDetailsSuccess) {
@@ -234,7 +224,6 @@ class TvEpisodesDetailsScreen extends StatelessWidget {
             }
           },
         ),
-      ),
     );
   }
 }

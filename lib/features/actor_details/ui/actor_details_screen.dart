@@ -15,15 +15,7 @@ class ActorDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int actorId = ModalRoute.of(context)!.settings.arguments as int;
-
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => ActorDetailsCubit(actorId)),
-        BlocProvider(create: (context) => ActorMovieCubit(actorId)),
-        BlocProvider(create: (context) => ActorImagesCubit(actorId)),
-      ],
-      child: Scaffold(
+    return  Scaffold(
         appBar: AppBar(
           title: const Text("Actor Details"),
           actions: [
@@ -248,7 +240,6 @@ class ActorDetailsScreen extends StatelessWidget {
             }
           },
         ),
-      ),
     );
   }
 }

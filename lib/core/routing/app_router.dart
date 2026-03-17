@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/core/dependency_injection/dependency_injection.dart';
 import 'package:movie/core/routing/app_route_names.dart';
+import 'package:movie/features/actor_details/logic/actor_details/actor_details_cubit.dart';
+import 'package:movie/features/actor_details/logic/actor_images/actor_images_cubit.dart';
+import 'package:movie/features/actor_details/logic/actor_movie/actor_movie_cubit.dart';
+import 'package:movie/features/actor_details/ui/actor_details_screen.dart';
 import 'package:movie/features/home_screen/logic/Slider/slider_cubit.dart';
 import 'package:movie/features/home_screen/logic/app_bar_scroll/app_bar_scroll_cubit.dart';
 import 'package:movie/features/home_screen/logic/genres/genres_cubit.dart';
@@ -23,6 +27,8 @@ import 'package:movie/features/movie_details/logic/review/review_cubit.dart';
 import 'package:movie/features/movie_details/logic/tap_text/tap_cubit.dart';
 import 'package:movie/features/movie_details/logic/trailer/trailer_cubit.dart';
 import 'package:movie/features/movie_details/ui/movie_details_screen.dart';
+import 'package:movie/features/my_list/logic/saved_movies/saved_movies_cubit.dart';
+import 'package:movie/features/my_list/ui/my_list_screen.dart';
 import 'package:movie/features/search_screen/logic/search_cubit/search_cubit.dart';
 import 'package:movie/features/search_screen/logic/search_focuse/search_focused_cubit.dart';
 import 'package:movie/features/search_screen/logic/selected_cubit/Sort_cubit/sort_cubit.dart';
@@ -34,6 +40,8 @@ import 'package:movie/features/search_screen/ui/search_screen.dart';
 import 'package:movie/features/tv_details/logic/tv_details/tv_details_cubit.dart';
 import 'package:movie/features/tv_details/logic/tv_season_details/tv_season_cubit.dart';
 import 'package:movie/features/tv_details/ui/tv_derails_screen.dart';
+import 'package:movie/features/tv_episodes_derails/logic/episode_details/episode_details_cubit.dart';
+import 'package:movie/features/tv_episodes_derails/ui/tv_episodes_details_screen.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
@@ -70,6 +78,7 @@ class AppRouter {
             ],
           child:SearchScreen()));
 
+
         /// More Movie Screen
       case AppRouteNames.moreMovieData:
         return  MaterialPageRoute(builder: (_) =>
@@ -96,7 +105,6 @@ class AppRouter {
 
 
       /// TV Details Screen
-
       case AppRouteNames.tvDetails:
         return MaterialPageRoute(builder: (_) => MultiBlocProvider(
             providers: [
@@ -110,6 +118,35 @@ class AppRouter {
               BlocProvider(create: (context) => DependencyInjection.getIt<ReviewCubit>(param1: settings.arguments as int , param2: "tv")),
             ],
             child:TvDerailsScreen()));
+
+      /// More Movie Screen
+      case AppRouteNames.tvEpisodeDetails:
+        return  MaterialPageRoute(builder: (_) =>
+            BlocProvider(
+              create: (context) => DependencyInjection.getIt<EpisodeDetailsCubit>(param1: settings.arguments as Map<String , dynamic>),
+              child: TvEpisodesDetailsScreen(),
+            ));
+
+
+      /// Actor Details Screen
+      case AppRouteNames.actorDetails:
+        return MaterialPageRoute(builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => DependencyInjection.getIt<ActorDetailsCubit>(param1: settings.arguments as int)),
+              BlocProvider(create: (context) => DependencyInjection.getIt<ActorMovieCubit>(param1: settings.arguments as int)),
+              BlocProvider(create: (context) => DependencyInjection.getIt<ActorImagesCubit>(param1: settings.arguments as int)),
+            ],
+            child:ActorDetailsScreen()));
+
+
+    /// My List Screen
+      case AppRouteNames.myList:
+        return  MaterialPageRoute(builder: (_) =>
+            BlocProvider(
+              create: (context) => DependencyInjection.getIt<SavedMoviesCubit>(),
+              child: MyListScreen(),
+            ));
+
 
       default:
         return MaterialPageRoute(builder: (_) => Scaffold());

@@ -1,13 +1,16 @@
-import 'package:movie/core/network/api_service.dart';
+import 'package:movie/core/network/api_consumer.dart';
 import 'package:movie/features/actor_details/data/models/actor_details_model.dart';
 import 'package:movie/features/actor_details/data/models/actor_images_model.dart';
 import 'package:movie/features/actor_details/data/models/actor_movie_model.dart';
 
 class ActorRepo {
+  final ApiConsumer _repo;
+  ActorRepo(this._repo);
+
   Future<dynamic> getActorDetails(int id) async {
     try {
-      final response = await ApiService.dio.get("/person/$id");
-      return ActorDetailsModel.fromJson(response.data);
+      final response = await _repo.get("/person/$id");
+      return ActorDetailsModel.fromJson(response);
     } catch (e) {
       return e.toString();
     }
@@ -15,8 +18,8 @@ class ActorRepo {
 
   Future<dynamic> getActorMovies(int id) async {
     try {
-      final response = await ApiService.dio.get("/person/$id/combined_credits");
-      return ActorMovieModel.fromJson(response.data);
+      final response = await _repo.get("/person/$id/combined_credits");
+      return ActorMovieModel.fromJson(response);
     } catch (e) {
       return e.toString();
     }
@@ -24,8 +27,8 @@ class ActorRepo {
 
   Future<dynamic> getActorImages(int id) async {
     try {
-      final response = await ApiService.dio.get("/person/$id/images");
-      return ActorImagesModel.fromJson(response.data);
+      final response = await _repo.get("/person/$id/images");
+      return ActorImagesModel.fromJson(response);
     } catch (e) {
       return e.toString();
     }

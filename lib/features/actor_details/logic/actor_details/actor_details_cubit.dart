@@ -6,13 +6,15 @@ import 'package:movie/features/actor_details/data/models/actor_details_model.dar
 part 'actor_details_state.dart';
 
 class ActorDetailsCubit extends Cubit<ActorDetailsState> {
-  ActorDetailsCubit(int id) : super(ActorDetailsInitial()){
-    getActorDetails(id);
+  final ActorRepo _repo;
+  final int id;
+  ActorDetailsCubit(this._repo , {required this.id}) : super(ActorDetailsInitial()){
+    getActorDetails();
   }
 
-  void getActorDetails(int id) async {
+  void getActorDetails() async {
     emit(ActorDetailsLoading());
-    ActorRepo().getActorDetails(id).then((value) {
+    _repo.getActorDetails(id).then((value) {
       if (value is ActorDetailsModel) {
         emit(ActorDetailsLoaded(value));
       } else {

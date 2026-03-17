@@ -6,14 +6,16 @@ import 'package:movie/features/home_screen/data/models/trending_movie_results_mo
 part 'actor_movie_state.dart';
 
 class ActorMovieCubit extends Cubit<ActorMovieState> {
-  ActorMovieCubit(int id) : super(ActorMovieInitial()){
-    getActorMovies(id);
+  final ActorRepo _repo;
+  final int id;
+  ActorMovieCubit(this._repo , {required this.id}) : super(ActorMovieInitial()){
+    getActorMovies();
   }
 
 
-  void getActorMovies(int id) async {
+  void getActorMovies() async {
     emit(ActorMovieLoading());
-    ActorRepo().getActorMovies(id).then((value) {
+    _repo.getActorMovies(id).then((value) {
       if (value is ActorMovieModel) {
         emit(ActorMovieSuccess(value.cast));
       } else {
