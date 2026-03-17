@@ -7,8 +7,14 @@ import 'package:movie/core/constants/extensions/context_extension.dart';
 import 'package:movie/core/routing/route_names.dart';
 import 'package:movie/features/search_screen/logic/search_cubit/search_cubit.dart';
 import 'package:movie/features/search_screen/logic/search_focuse/search_focused_cubit.dart';
+import 'package:movie/features/search_screen/logic/selected_cubit/Sort_cubit/sort_cubit.dart';
+import 'package:movie/features/search_screen/logic/selected_cubit/genre_cubit/genre_cubit.dart';
+import 'package:movie/features/search_screen/logic/selected_cubit/regions_cubit/regions_cubit.dart';
+import 'package:movie/features/search_screen/logic/selected_cubit/selected_cubit.dart';
+import 'package:movie/features/search_screen/logic/selected_cubit/time_cubit/time_cubit.dart';
 import 'package:movie/features/search_screen/ui/widget/bottom_sheet_content.dart';
 import 'package:movie/features/search_screen/ui/widget/text_form_field_default_border_widget.dart';
+import 'package:path/path.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -21,9 +27,19 @@ class SearchScreen extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) {
-        return  BottomSheetContent();
-      },
+        builder: (_) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: parentContext.read<SearchCubit>()),
+              BlocProvider.value(value: parentContext.read<CategoryCubit>()),
+              BlocProvider.value(value: parentContext.read<RegionsCubit>()),
+              BlocProvider.value(value: parentContext.read<GenreCubit>()),
+              BlocProvider.value(value: parentContext.read<TimeCubit>()),
+              BlocProvider.value(value: parentContext.read<SortCubit>()),
+            ],
+            child: const BottomSheetContent(),
+          );
+        }
     );
   }
 

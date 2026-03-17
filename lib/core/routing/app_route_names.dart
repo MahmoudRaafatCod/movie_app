@@ -1,8 +1,8 @@
 class AppRouteNames{
-  static const String nav = "/";
+  static const String nav = "/nav";
   static const String home = "/home";
   static const String myList = "/myList";
-  static const String search = "/search";
+  static const String search = "/";
   static const String profile = "/profile";
   static const String tvDetails = "/tvDetails";
   static const String actorDetails = "/actorDetails";
