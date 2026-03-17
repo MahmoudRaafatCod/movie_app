@@ -13,6 +13,10 @@ class TvDetailsCubit extends Cubit<TvDetailsState> {
 
   void selectSeason(int seasonNumber) {
     selectedSeason = seasonNumber;
+
+    if (state is TvDetailsSuccess) {
+      emit(TvDetailsSuccess((state as TvDetailsSuccess).tvShow));
+    }
   }
 
   void getTvShowDetails()  {

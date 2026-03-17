@@ -26,8 +26,8 @@ class TvDerailsScreen extends StatelessWidget {
     final ScrollController scrollController = ScrollController();
 
     return  BlocBuilder<TvDetailsCubit, TvDetailsState>(
-        builder: (context, state) {
-          if (state is TvDetailsSuccess) {
+        builder: (context, seasonState) {
+          if (seasonState is TvDetailsSuccess) {
             scrollController.addListener(() {
               context.read<AppBarScrollCubit>().updateOffset(
                 scrollController.offset,
@@ -60,7 +60,7 @@ class TvDerailsScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(
-                            "${Assets.baseUrl}${state.tvShow.posterPath}",
+                            "${Assets.baseUrl}${seasonState.tvShow.posterPath}",
                           ),
                           fit: BoxFit.fill,
                         ),
@@ -74,11 +74,13 @@ class TvDerailsScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                state.tvShow.name,
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
+                              Expanded(
+                                child: Text(
+                                  seasonState.tvShow.name,
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                               IconButton(
@@ -87,10 +89,10 @@ class TvDerailsScreen extends StatelessWidget {
                                   context.read<SavedMoviesCubit>().toggleMovie(
                                     SavedMovieModel(
                                       id: context.read<CasteDetailsCubit>().movieId,
-                                      title: state.tvShow.name,
+                                      title: seasonState.tvShow.name,
                                       mediaType: "tv",
-                                      posterPath: state.tvShow.posterPath!,
-                                      voteAverage: state.tvShow.voteAverage,
+                                      posterPath: seasonState.tvShow.posterPath!,
+                                      voteAverage: seasonState.tvShow.voteAverage,
                                     ),
                                   );
                                 },
@@ -108,7 +110,7 @@ class TvDerailsScreen extends StatelessWidget {
                               ),
                               SizedBox(width: 8),
                               Text(
-                                state.tvShow.voteAverage.toStringAsFixed(1),
+                                seasonState.tvShow.voteAverage.toStringAsFixed(1),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: context.primaryColor,
@@ -121,7 +123,7 @@ class TvDerailsScreen extends StatelessWidget {
                                 size: 15,
                               ),
                               SizedBox(width: 8),
-                              Text("${state.tvShow.firstAirDate?.year}"),
+                              Text("${seasonState.tvShow.firstAirDate?.year}"),
                             ],
                           ),
                           SizedBox(height: 10),
@@ -129,7 +131,7 @@ class TvDerailsScreen extends StatelessWidget {
                           Wrap(
                             spacing: 5,
                             runSpacing: 5,
-                            children: state.tvShow.genres.map((genre) {
+                            children: seasonState.tvShow.genres.map((genre) {
                               return Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 10,
@@ -161,7 +163,7 @@ class TvDerailsScreen extends StatelessWidget {
                           Text("Overview", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),),
                           SizedBox(height: 10),
                           ReadMoreText(
-                            state.tvShow.overview,
+                            seasonState.tvShow.overview,
                             trimLines: 3,
                             trimMode: TrimMode.Line,
                             style: TextStyle(fontSize: 12),
@@ -244,8 +246,8 @@ class TvDerailsScreen extends StatelessWidget {
                                 underline: const SizedBox(),
                                 dropdownColor: context.appBarColor,
                                 style: TextStyle(
-                                  color: Colors.red, fontSize: 16,),
-                                items: state.tvShow.seasons.map((season) {
+                                  color: context.primaryColor, fontSize: 16,),
+                                items: seasonState.tvShow.seasons.map((season) {
                                   return DropdownMenuItem(
                                     value: season.seasonNumber,
                                     child: Text("Season ${season.seasonNumber}" ),
@@ -286,7 +288,7 @@ class TvDerailsScreen extends StatelessWidget {
                                                     image: NetworkImage(
                                                       episode.stillPath != null
                                                           ? "${Assets.baseUrl}${episode.stillPath}"
-                                                          : Assets.errorImage,
+                                                          : "${Assets.baseUrl}${seasonState.tvShow.posterPath}",
                                                     ),
                                                     fit: BoxFit.cover,
                                                     colorFilter: const ColorFilter.mode(
