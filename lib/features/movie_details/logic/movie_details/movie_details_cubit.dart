@@ -6,14 +6,15 @@ import 'package:movie/features/movie_details/data/movie_details_repo.dart';
 part 'movie_details_state.dart';
 
 class MovieDetailsCubit extends Cubit<MovieDetailsState> {
-
-  MovieDetailsCubit(int id ) : super(MovieDetailsInitial()) {
-    getMovieDetails(id);
+  final MovieDetailsRepo _repo;
+  final int id;
+  MovieDetailsCubit(this._repo , {required this.id}) : super(MovieDetailsInitial()) {
+    getMovieDetails();
   }
 
 
-  void getMovieDetails(int id) {
-    MovieDetailsRepo().movieDetails(id ,).then((value) {
+  void getMovieDetails() {
+    _repo.movieDetails(id).then((value) {
       emit(MovieDetailsSuccess(value));
     });
   }

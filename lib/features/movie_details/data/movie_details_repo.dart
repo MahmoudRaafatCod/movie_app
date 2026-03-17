@@ -1,4 +1,4 @@
-import 'package:movie/core/network/api_service.dart';
+import 'package:movie/core/network/api_consumer.dart';
 import 'package:movie/features/home_screen/data/models/trending_movie_model.dart';
 import 'package:movie/features/movie_details/data/models/movie_cast_model.dart';
 import 'package:movie/features/movie_details/data/models/movie_details_model.dart';
@@ -6,11 +6,13 @@ import 'package:movie/features/movie_details/data/models/movie_review_model.dart
 import 'package:movie/features/movie_details/data/models/trailer_model.dart';
 
 class MovieDetailsRepo {
+  final ApiConsumer _api;
+  MovieDetailsRepo(this._api);
 
   Future<dynamic> movieDetails(int id) async{
     try{
-      final res = await ApiService.dio.get("/movie/$id");
-      MovieDetailsModel model = MovieDetailsModel.fromJson(res.data);
+      final res = await _api.get("/movie/$id");
+      MovieDetailsModel model = MovieDetailsModel.fromJson(res);
       return model;
     }catch(e){
       return e.toString();
@@ -19,15 +21,15 @@ class MovieDetailsRepo {
   }
 
   Future<MovieCastModel> movieCast(int id , String type) async{
-    final res = await ApiService.dio.get("/$type/$id/credits");
-        MovieCastModel model = MovieCastModel.fromJson(res.data);
+    final res = await _api.get("/$type/$id/credits");
+        MovieCastModel model = MovieCastModel.fromJson(res);
     return model;
   }
 
   Future<dynamic> movieTrailer(int id , String type) async{
     try {
-      final res = await ApiService.dio.get("/$type/$id/videos");
-      TrailerModel model = TrailerModel.fromJson(res.data);
+      final res = await _api.get("/$type/$id/videos");
+      TrailerModel model = TrailerModel.fromJson(res);
       return model;
     } catch (e) {
       return e.toString();
@@ -35,14 +37,14 @@ class MovieDetailsRepo {
   }
 
   Future<TrendingMovieModel> movieSimilar(int id , String type) async{
-    final res = await ApiService.dio.get("/$type/$id/similar");
-        TrendingMovieModel model = TrendingMovieModel.fromJson(res.data);
+    final res = await _api.get("/$type/$id/similar");
+        TrendingMovieModel model = TrendingMovieModel.fromJson(res);
     return model;
   }
   
   Future<MovieReviewModel> movieReview(int id , String type) async{
-    final res = await ApiService.dio.get("/$type/$id/reviews");
-        MovieReviewModel model = MovieReviewModel.fromJson(res.data);
+    final res = await _api.get("/$type/$id/reviews");
+        MovieReviewModel model = MovieReviewModel.fromJson(res);
     return model;
   }
 }

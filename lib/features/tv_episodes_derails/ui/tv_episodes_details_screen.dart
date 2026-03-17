@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/core/constants/extensions/assets.dart';
 import 'package:movie/core/constants/extensions/context_extension.dart';
-import 'package:movie/core/routing/route_names.dart';
+import 'package:movie/core/routing/app_route_names.dart';
 import 'package:movie/features/tv_episodes_derails/logic/episode_details/episode_details_cubit.dart';
 import 'package:readmore/readmore.dart';
 
@@ -122,7 +122,7 @@ class TvEpisodesDetailsScreen extends StatelessWidget {
                                   final guest = episode.guestStars![index];
                                   return GestureDetector(
                                     onTap: (){
-                                      Navigator.pushNamed(context, RouteNames.actorDetails.name, arguments: guest.id);
+                                      Navigator.pushNamed(context, AppRouteNames.actorDetails, arguments: guest.id);
                                     },
                                     child: SizedBox(
                                       width: 100,
@@ -182,7 +182,7 @@ class TvEpisodesDetailsScreen extends StatelessWidget {
                                   final crew = episode.crew![index];
                                   return GestureDetector(
                                     onTap: (){
-                                      Navigator.pushNamed(context, RouteNames.actorDetails.name, arguments: crew.id);
+                                      Navigator.pushNamed(context, AppRouteNames.actorDetails, arguments: crew.id);
                                     },
                                     child: SizedBox(
                                       width: 100,

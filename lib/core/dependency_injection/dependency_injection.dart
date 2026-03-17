@@ -15,6 +15,13 @@ import 'package:movie/features/home_screen/logic/trending/trending_cubit.dart';
 import 'package:movie/features/home_screen/logic/upcoming/upcoming_cubit.dart';
 import 'package:movie/features/more_movie_screen/data/models/more_movie_args.dart';
 import 'package:movie/features/more_movie_screen/logic/data_movie/data_move_cubit.dart';
+import 'package:movie/features/movie_details/data/movie_details_repo.dart';
+import 'package:movie/features/movie_details/logic/caste_details/caste_details_cubit.dart';
+import 'package:movie/features/movie_details/logic/more_like_this/similar_cubit.dart';
+import 'package:movie/features/movie_details/logic/movie_details/movie_details_cubit.dart';
+import 'package:movie/features/movie_details/logic/review/review_cubit.dart';
+import 'package:movie/features/movie_details/logic/tap_text/tap_cubit.dart';
+import 'package:movie/features/movie_details/logic/trailer/trailer_cubit.dart';
 import 'package:movie/features/navigation_screen/logic/bottom_navigation_bar/nav_cubit.dart';
 import 'package:movie/features/search_screen/data/search_repo.dart';
 import 'package:movie/features/search_screen/logic/search_cubit/search_cubit.dart';
@@ -24,6 +31,9 @@ import 'package:movie/features/search_screen/logic/selected_cubit/genre_cubit/ge
 import 'package:movie/features/search_screen/logic/selected_cubit/regions_cubit/regions_cubit.dart';
 import 'package:movie/features/search_screen/logic/selected_cubit/selected_cubit.dart';
 import 'package:movie/features/search_screen/logic/selected_cubit/time_cubit/time_cubit.dart';
+import 'package:movie/features/tv_details/data/tv_details_repo.dart';
+import 'package:movie/features/tv_details/logic/tv_details/tv_details_cubit.dart';
+import 'package:movie/features/tv_details/logic/tv_season_details/tv_season_cubit.dart';
 
 class DependencyInjection{
   static final GetIt getIt = GetIt.instance;
@@ -35,11 +45,13 @@ class DependencyInjection{
     /// Repos
     getIt.registerLazySingleton<HomeRepo>(() => HomeRepo(getIt<ApiConsumer>()));
     getIt.registerLazySingleton<SearchRepo>(() => SearchRepo(getIt<ApiConsumer>()));
+    getIt.registerLazySingleton<MovieDetailsRepo>(() => MovieDetailsRepo(getIt<ApiConsumer>()));
+    getIt.registerLazySingleton<TvDetailsRepo>(() => TvDetailsRepo(getIt<ApiConsumer>()));
 
     /// Cubits
+
     /// Nav
     getIt.registerFactory<NavCubit>(() => NavCubit());
-
 
 
     /// Home
@@ -67,6 +79,18 @@ class DependencyInjection{
     getIt.registerFactoryParam<DataMoveCubit , MoreMovieArgs , void>((args , _) => DataMoveCubit(getIt<HomeRepo>(), args: args));
 
 
+    /// Movie Details Screen
+    getIt.registerFactory<TapCubit>(() => TapCubit());
+    getIt.registerFactoryParam<MovieDetailsCubit , int , void>((id , _) => MovieDetailsCubit(getIt<MovieDetailsRepo>(), id: id));
+    getIt.registerFactoryParam<CasteDetailsCubit , int , String>((id , type) => CasteDetailsCubit(getIt<MovieDetailsRepo>(), id: id , type: type));
+    getIt.registerFactoryParam<TrailerCubit , int , String>((id , type) => TrailerCubit(getIt<MovieDetailsRepo>(), id: id , type: type));
+    getIt.registerFactoryParam<SimilarCubit , int , String>((id , type) => SimilarCubit(getIt<MovieDetailsRepo>(), id: id , type: type));
+    getIt.registerFactoryParam<ReviewCubit , int , String>((id , type) => ReviewCubit(getIt<MovieDetailsRepo>(), id: id , type: type));
+
+
+    /// TV Details Screen
+    getIt.registerFactoryParam<TvDetailsCubit , int , void>((id , _) => TvDetailsCubit(getIt<TvDetailsRepo>(), id: id));
+    getIt.registerFactoryParam<TvSeasonCubit , int , void>((id , _) => TvSeasonCubit(getIt<TvDetailsRepo>(), id: id));
 
 
     // getIt.registerFactoryParam<DetailsCubit, String, void>((countryName, _) => DetailsCubit(getIt<DetailsRepo>(), countryName: countryName));

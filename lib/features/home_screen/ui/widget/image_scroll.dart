@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie/core/constants/extensions/assets.dart';
 import 'package:movie/core/constants/extensions/context_extension.dart';
-import 'package:movie/core/routing/route_names.dart';
+import 'package:movie/core/routing/app_route_names.dart';
 
 class ImageScroll extends StatelessWidget {
   final List<dynamic> movies;
@@ -22,9 +22,9 @@ class ImageScroll extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 if(isTV){
-                  Navigator.pushNamed(context, RouteNames.tvDetails.name, arguments: movie.id,);
+                  Navigator.pushNamed(context, AppRouteNames.tvDetails, arguments: movie.id,);
                 }else{
-                Navigator.pushNamed(context, RouteNames.movieDetails.name, arguments: movie.id,);
+                Navigator.pushNamed(context, AppRouteNames.movieDetails, arguments: movie.id,);
                 }
               },
               child: Container(

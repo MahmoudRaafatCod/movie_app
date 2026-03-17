@@ -3,15 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie/core/constants/extensions/assets.dart';
 import 'package:movie/core/constants/extensions/context_extension.dart';
-import 'package:movie/core/routing/route_names.dart';
+import 'package:movie/core/routing/app_route_names.dart';
 import 'package:movie/features/home_screen/logic/app_bar_scroll/app_bar_scroll_cubit.dart';
 import 'package:movie/features/movie_details/data/models/saved_movie_model.dart';
 import 'package:movie/features/movie_details/logic/caste_details/caste_details_cubit.dart';
-import 'package:movie/features/movie_details/logic/more_like_this/similar_cubit.dart';
 import 'package:movie/features/movie_details/logic/movie_details/movie_details_cubit.dart';
-import 'package:movie/features/movie_details/logic/review/review_cubit.dart';
 import 'package:movie/features/movie_details/logic/tap_text/tap_cubit.dart';
-import 'package:movie/features/movie_details/logic/trailer/trailer_cubit.dart';
 import 'package:movie/features/movie_details/ui/widget/movie_review.dart';
 import 'package:movie/features/movie_details/ui/widget/movie_similar.dart';
 import 'package:movie/features/movie_details/ui/widget/text_row.dart';
@@ -24,20 +21,9 @@ class MovieDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int movieId = ModalRoute.of(context)!.settings.arguments as int;
     final ScrollController scrollController = ScrollController();
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => MovieDetailsCubit(movieId)),
-        BlocProvider(create: (context) => CasteDetailsCubit(movieId , "movie")),
-        BlocProvider(create: (context) => TapCubit()),
-        BlocProvider(create: (context) => TrailerCubit(movieId , "movie")),
-        BlocProvider(create: (context) => SimilarCubit(movieId , "movie")),
-        BlocProvider(create: (context) => AppBarScrollCubit()),
-        BlocProvider(create: (context) => ReviewCubit(movieId ,"movie")),
-      ],
-      child: BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
+    return BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
         builder: (context, state) {
           if (state is MovieDetailsSuccess) {
             scrollController.addListener(() {
@@ -56,7 +42,7 @@ class MovieDetailsScreen extends StatelessWidget {
                       backgroundColor: context.appBarColor.withValues(alpha: opacity),
                       elevation: 0,
                       actions: [
-                        IconButton(onPressed: ()=>Navigator.pushNamed(context, RouteNames.search.name), icon: Icon(Icons.search))
+                        IconButton(onPressed: ()=>Navigator.pushNamed(context, AppRouteNames.search), icon: Icon(Icons.search))
                       ],
                     );
                   },
@@ -96,11 +82,11 @@ class MovieDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                    icon: SvgPicture.asset( context.watch<SavedMoviesCubit>().isSaved(movieId) ? 'assets/icons/Bookmark2.svg' : 'assets/icons/Bookmark.svg', width: 20, height: 20,),
+                                    icon: SvgPicture.asset( context.watch<SavedMoviesCubit>().isSaved(context.read<CasteDetailsCubit>().movieId) ? 'assets/icons/Bookmark2.svg' : 'assets/icons/Bookmark.svg', width: 20, height: 20,),
                                     onPressed: () {
                                       context.read<SavedMoviesCubit>().toggleMovie(
                                         SavedMovieModel(
-                                          id: movieId,
+                                          id: context.read<CasteDetailsCubit>().movieId,
                                           title: state.movie.title,
                                           mediaType: "movie",
                                           posterPath: state.movie.posterPath,
@@ -220,7 +206,7 @@ class MovieDetailsScreen extends StatelessWidget {
                                       final cast = state.cast[index];
                                       return GestureDetector(
                                         onTap: () {
-                                          Navigator.pushNamed(context, RouteNames.actorDetails.name, arguments: cast.id);
+                                          Navigator.pushNamed(context, AppRouteNames.actorDetails, arguments: cast.id);
 
                                         },
                                         child: Container(
@@ -319,7 +305,6 @@ class MovieDetailsScreen extends StatelessWidget {
             );
           }
         },
-      ),
     );
   }
 }

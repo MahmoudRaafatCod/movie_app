@@ -9,3 +9,11 @@ final class CasteDetailsSuccess extends CasteDetailsState {
 
   CasteDetailsSuccess(this.cast);
 }
+
+final class CasteDetailsFailure extends CasteDetailsState {
+  String error;
+
+  CasteDetailsFailure(this.error);
+}
+
+

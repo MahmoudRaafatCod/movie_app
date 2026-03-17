@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie/core/constants/extensions/assets.dart';
 import 'package:movie/core/constants/extensions/context_extension.dart';
-import 'package:movie/core/routing/route_names.dart';
+import 'package:movie/core/routing/app_route_names.dart';
 import 'package:movie/features/search_screen/logic/search_cubit/search_cubit.dart';
 import 'package:movie/features/search_screen/logic/search_focuse/search_focused_cubit.dart';
 import 'package:movie/features/search_screen/logic/selected_cubit/Sort_cubit/sort_cubit.dart';
@@ -14,7 +14,6 @@ import 'package:movie/features/search_screen/logic/selected_cubit/selected_cubit
 import 'package:movie/features/search_screen/logic/selected_cubit/time_cubit/time_cubit.dart';
 import 'package:movie/features/search_screen/ui/widget/bottom_sheet_content.dart';
 import 'package:movie/features/search_screen/ui/widget/text_form_field_default_border_widget.dart';
-import 'package:path/path.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -127,9 +126,9 @@ class SearchScreen extends StatelessWidget {
                             return GestureDetector(
                               onTap: () {
                                 if(movie.mediaType == "movie"){
-                                Navigator.pushNamed(context, RouteNames.movieDetails.name, arguments: movie.id);
+                                Navigator.pushNamed(context, AppRouteNames.movieDetails, arguments: movie.id);
                                 }else{
-                                  Navigator.pushNamed(context, RouteNames.tvDetails.name, arguments: movie.id);
+                                  Navigator.pushNamed(context, AppRouteNames.tvDetails, arguments: movie.id);
                                 }
                               },
                               child: Container(

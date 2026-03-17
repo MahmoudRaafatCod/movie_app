@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/core/constants/extensions/assets.dart';
 import 'package:movie/core/constants/extensions/context_extension.dart';
 import 'package:movie/core/routing/app_route_names.dart';
-import 'package:movie/core/routing/route_names.dart';
 import 'package:movie/features/home_screen/logic/app_bar_scroll/app_bar_scroll_cubit.dart';
 import 'package:movie/features/home_screen/logic/now_playing/now_playing_cubit.dart';
 import 'package:movie/features/home_screen/logic/on_the_air_tv/on_the_air_cubit.dart';
@@ -76,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           items: sliderState.results.map((movie) {
                             return GestureDetector(
-                              onTap: () => Navigator.pushNamed(context, RouteNames.movieDetails.name, arguments: movie.id,),
+                              onTap: () => Navigator.pushNamed(context, AppRouteNames.movieDetails, arguments: movie.id,),
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),

@@ -6,8 +6,9 @@ import 'package:movie/features/tv_details/data/tv_details_repo.dart';
 part 'tv_season_state.dart';
 
 class TvSeasonCubit extends Cubit<TvSeasonState> {
+  final TvDetailsRepo _repo;
   final int id;
-  TvSeasonCubit(this.id ) : super(TvSeasonInitial()){
+  TvSeasonCubit(this._repo , {required this.id} ) : super(TvSeasonInitial()){
     getTvShowSeasonDetails();
   }
 
@@ -20,7 +21,7 @@ class TvSeasonCubit extends Cubit<TvSeasonState> {
 
 
   void getTvShowSeasonDetails()  {
-    TvDetailsRepo().getTvShowSeasons(id , selectedSeason).then((value) {
+    _repo.getTvShowSeasons(id , selectedSeason).then((value) {
       if(value is SeasonDetailsModel){
         emit(TvSeasonSuccess(value));
       }else{

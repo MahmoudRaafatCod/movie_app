@@ -6,12 +6,15 @@ import 'package:movie/features/movie_details/data/movie_details_repo.dart';
 part 'trailer_state.dart';
 
 class TrailerCubit extends Cubit<TrailerState> {
-  TrailerCubit(int id , String type) : super(TrailerInitial()){
-    getTrailer(id , type);
+  final MovieDetailsRepo _repo;
+  final int id;
+  final String type;
+  TrailerCubit(this._repo , {required this.id , required this.type}) : super(TrailerInitial()){
+    getTrailer();
   }
 
-  void getTrailer(int id , String type){
-    MovieDetailsRepo().movieTrailer(id , type).then((value) {
+  void getTrailer(){
+    _repo.movieTrailer(id , type).then((value) {
       // if(value is TrailerResponseModel) {
       emit(TrailerSuccess(value.results));
       // } else {

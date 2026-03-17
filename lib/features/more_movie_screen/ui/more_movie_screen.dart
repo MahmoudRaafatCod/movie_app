@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/core/constants/extensions/assets.dart';
 import 'package:movie/core/constants/extensions/context_extension.dart';
-import 'package:movie/core/routing/route_names.dart';
+import 'package:movie/core/routing/app_route_names.dart';
 import 'package:movie/features/more_movie_screen/logic/data_movie/data_move_cubit.dart';
 
 class MoreMovieScreen extends StatelessWidget {
@@ -40,7 +40,7 @@ class MoreMovieScreen extends StatelessWidget {
                               onTap: () {
                                 Navigator.pushNamed(
                                   context,
-                                  RouteNames.movieDetails.name,
+                                  AppRouteNames.movieDetails,
                                   arguments: movie.id,
                                 );
                               },

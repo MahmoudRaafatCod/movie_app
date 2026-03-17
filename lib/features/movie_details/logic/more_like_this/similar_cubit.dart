@@ -6,12 +6,15 @@ import 'package:movie/features/movie_details/data/movie_details_repo.dart';
 part 'similar_state.dart';
 
 class SimilarCubit extends Cubit<SimilarState> {
-  SimilarCubit(int id , String type) : super(SimilarInitial()){
-    getSimilar(id , type);
+  final MovieDetailsRepo _repo;
+  final int id;
+  final String type;
+  SimilarCubit(this._repo , {required this.id , required this.type}) : super(SimilarInitial()){
+    getSimilar();
   }
 
-  void getSimilar(int id , String type){
-    MovieDetailsRepo().movieSimilar(id , type).then((value) {
+  void getSimilar(){
+    _repo.movieSimilar(id , type).then((value) {
       emit(SimilarSuccess(value.results));
     });
   }

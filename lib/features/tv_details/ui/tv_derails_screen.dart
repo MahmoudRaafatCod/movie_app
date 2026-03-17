@@ -3,14 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie/core/constants/extensions/assets.dart';
 import 'package:movie/core/constants/extensions/context_extension.dart';
-import 'package:movie/core/routing/route_names.dart';
+import 'package:movie/core/routing/app_route_names.dart';
 import 'package:movie/features/home_screen/logic/app_bar_scroll/app_bar_scroll_cubit.dart';
 import 'package:movie/features/movie_details/data/models/saved_movie_model.dart';
 import 'package:movie/features/movie_details/logic/caste_details/caste_details_cubit.dart';
-import 'package:movie/features/movie_details/logic/more_like_this/similar_cubit.dart';
-import 'package:movie/features/movie_details/logic/review/review_cubit.dart';
 import 'package:movie/features/movie_details/logic/tap_text/tap_cubit.dart';
-import 'package:movie/features/movie_details/logic/trailer/trailer_cubit.dart';
 import 'package:movie/features/movie_details/ui/widget/movie_review.dart';
 import 'package:movie/features/movie_details/ui/widget/movie_similar.dart';
 import 'package:movie/features/movie_details/ui/widget/text_row.dart';
@@ -26,21 +23,9 @@ class TvDerailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int movieId = ModalRoute.of(context)!.settings.arguments as int;
     final ScrollController scrollController = ScrollController();
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => TvDetailsCubit(movieId)),
-        BlocProvider(create: (context) => CasteDetailsCubit(movieId , "tv")),
-        BlocProvider(create: (context) => TapCubit()),
-        BlocProvider(create: (context) => TrailerCubit(movieId , "tv")),
-        BlocProvider(create: (context) => SimilarCubit(movieId , "tv")),
-        BlocProvider(create: (context) => AppBarScrollCubit()),
-        BlocProvider(create: (context) => ReviewCubit(movieId , "tv")),
-        BlocProvider(create: (context) => TvSeasonCubit(movieId )),
-      ],
-      child: BlocBuilder<TvDetailsCubit, TvDetailsState>(
+    return  BlocBuilder<TvDetailsCubit, TvDetailsState>(
         builder: (context, state) {
           if (state is TvDetailsSuccess) {
             scrollController.addListener(() {
@@ -59,7 +44,7 @@ class TvDerailsScreen extends StatelessWidget {
                       backgroundColor: context.appBarColor.withValues(alpha: opacity),
                       elevation: 0,
                       actions: [
-                        IconButton(onPressed: ()=>Navigator.pushNamed(context, RouteNames.search.name), icon: Icon(Icons.search))
+                        IconButton(onPressed: ()=>Navigator.pushNamed(context, AppRouteNames.search), icon: Icon(Icons.search))
                       ],
                     );
                   },
@@ -97,11 +82,11 @@ class TvDerailsScreen extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                icon: SvgPicture.asset( context.watch<SavedMoviesCubit>().isSaved(movieId) ? 'assets/icons/Bookmark2.svg' : 'assets/icons/Bookmark.svg', width: 20, height: 20,),
+                                icon: SvgPicture.asset( context.watch<SavedMoviesCubit>().isSaved(context.read<CasteDetailsCubit>().movieId) ? 'assets/icons/Bookmark2.svg' : 'assets/icons/Bookmark.svg', width: 20, height: 20,),
                                 onPressed: () {
                                   context.read<SavedMoviesCubit>().toggleMovie(
                                     SavedMovieModel(
-                                      id: movieId,
+                                      id: context.read<CasteDetailsCubit>().movieId,
                                       title: state.tvShow.name,
                                       mediaType: "tv",
                                       posterPath: state.tvShow.posterPath!,
@@ -205,7 +190,7 @@ class TvDerailsScreen extends StatelessWidget {
                                       final cast = state.cast[index];
                                       return GestureDetector(
                                         onTap: () {
-                                          Navigator.pushNamed(context, RouteNames.actorDetails.name, arguments: cast.id);
+                                          Navigator.pushNamed(context, AppRouteNames.actorDetails, arguments: cast.id);
                                         },
                                         child: Container(
                                           padding: EdgeInsets.symmetric(
@@ -288,7 +273,7 @@ class TvDerailsScreen extends StatelessWidget {
                                         final episode = state.data.episodes[index];
                                         return GestureDetector(
                                           onTap: (){
-                                            Navigator.pushNamed(context, RouteNames.tvEpisodeDetails.name, arguments: {"tvShowId" : movieId , "seasonNumber" : episode.seasonNumber , "episodeNumber" : episode.episodeNumber},);
+                                            Navigator.pushNamed(context, AppRouteNames.tvEpisodeDetails, arguments: {"tvShowId" : context.read<CasteDetailsCubit>().movieId , "seasonNumber" : episode.seasonNumber , "episodeNumber" : episode.episodeNumber},);
                                           },
                                           child: SizedBox(
                                             width: 250,
@@ -383,7 +368,7 @@ class TvDerailsScreen extends StatelessWidget {
             );
           }
         },
-      ),
+
     );
   }
 }

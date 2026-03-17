@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:movie/core/constants/extensions/assets.dart';
 import 'package:movie/core/constants/extensions/context_extension.dart';
-import 'package:movie/core/routing/route_names.dart';
+import 'package:movie/core/routing/app_route_names.dart';
 import 'package:movie/features/actor_details/logic/actor_details/actor_details_cubit.dart';
 import 'package:movie/features/actor_details/logic/actor_images/actor_images_cubit.dart';
 import 'package:movie/features/actor_details/logic/actor_movie/actor_movie_cubit.dart';
@@ -27,7 +27,7 @@ class ActorDetailsScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Actor Details"),
           actions: [
-            IconButton(onPressed: ()=>Navigator.pushNamed(context, RouteNames.search.name), icon: Icon(Icons.search))
+            IconButton(onPressed: ()=>Navigator.pushNamed(context, AppRouteNames.search), icon: Icon(Icons.search))
           ],
         ),
         body: BlocBuilder<ActorDetailsCubit, ActorDetailsState>(
@@ -192,9 +192,9 @@ class ActorDetailsScreen extends StatelessWidget {
                                 return GestureDetector(
                                   onTap: () {
                                     if(movie.mediaType == "movie") {
-                                      Navigator.pushNamed(context, RouteNames.movieDetails.name, arguments: movie.id);
+                                      Navigator.pushNamed(context, AppRouteNames.movieDetails, arguments: movie.id);
                                     } else {
-                                      Navigator.pushNamed(context, RouteNames.tvDetails.name, arguments: movie.id);
+                                      Navigator.pushNamed(context, AppRouteNames.tvDetails, arguments: movie.id);
                                     }
                                   },
                                   child: SizedBox(

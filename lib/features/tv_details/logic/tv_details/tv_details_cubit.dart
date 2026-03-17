@@ -3,8 +3,10 @@ import 'package:movie/features/tv_details/data/tv_details_repo.dart';
 import 'package:movie/features/tv_details/logic/tv_details/tv_details_state.dart';
 
 class TvDetailsCubit extends Cubit<TvDetailsState> {
-  TvDetailsCubit(int id) : super(TvDetailsInitial()){
-    getTvShowDetails(id);
+  final TvDetailsRepo _repo;
+  final int id;
+  TvDetailsCubit(this._repo , {required this.id}) : super(TvDetailsInitial()){
+    getTvShowDetails();
   }
 
   int selectedSeason = 1;
@@ -13,10 +15,10 @@ class TvDetailsCubit extends Cubit<TvDetailsState> {
     selectedSeason = seasonNumber;
   }
 
-  void getTvShowDetails(int id)  {
+  void getTvShowDetails()  {
     emit(TvDetailsLoading());
     try {
-      TvDetailsRepo().getTvShowDetails(id).then((value) {
+      _repo.getTvShowDetails(id).then((value) {
         emit(TvDetailsSuccess(value));
       });
     } catch (e) {

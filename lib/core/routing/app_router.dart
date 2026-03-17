@@ -16,6 +16,13 @@ import 'package:movie/features/home_screen/ui/home_screen.dart';
 import 'package:movie/features/more_movie_screen/data/models/more_movie_args.dart';
 import 'package:movie/features/more_movie_screen/logic/data_movie/data_move_cubit.dart';
 import 'package:movie/features/more_movie_screen/ui/more_movie_screen.dart';
+import 'package:movie/features/movie_details/logic/caste_details/caste_details_cubit.dart';
+import 'package:movie/features/movie_details/logic/more_like_this/similar_cubit.dart';
+import 'package:movie/features/movie_details/logic/movie_details/movie_details_cubit.dart';
+import 'package:movie/features/movie_details/logic/review/review_cubit.dart';
+import 'package:movie/features/movie_details/logic/tap_text/tap_cubit.dart';
+import 'package:movie/features/movie_details/logic/trailer/trailer_cubit.dart';
+import 'package:movie/features/movie_details/ui/movie_details_screen.dart';
 import 'package:movie/features/search_screen/logic/search_cubit/search_cubit.dart';
 import 'package:movie/features/search_screen/logic/search_focuse/search_focused_cubit.dart';
 import 'package:movie/features/search_screen/logic/selected_cubit/Sort_cubit/sort_cubit.dart';
@@ -24,6 +31,9 @@ import 'package:movie/features/search_screen/logic/selected_cubit/regions_cubit/
 import 'package:movie/features/search_screen/logic/selected_cubit/selected_cubit.dart';
 import 'package:movie/features/search_screen/logic/selected_cubit/time_cubit/time_cubit.dart';
 import 'package:movie/features/search_screen/ui/search_screen.dart';
+import 'package:movie/features/tv_details/logic/tv_details/tv_details_cubit.dart';
+import 'package:movie/features/tv_details/logic/tv_season_details/tv_season_cubit.dart';
+import 'package:movie/features/tv_details/ui/tv_derails_screen.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
@@ -67,6 +77,39 @@ class AppRouter {
               create: (context) => DependencyInjection.getIt<DataMoveCubit>(param1: settings.arguments as MoreMovieArgs),
               child: MoreMovieScreen(),
             ));
+
+
+      /// Movie Details Screen
+
+      case AppRouteNames.movieDetails:
+        return MaterialPageRoute(builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => DependencyInjection.getIt<TapCubit>()),
+              BlocProvider(create: (context) => DependencyInjection.getIt<AppBarScrollCubit>()),
+              BlocProvider(create: (context) => DependencyInjection.getIt<MovieDetailsCubit>(param1: settings.arguments as int)),
+              BlocProvider(create: (context) => DependencyInjection.getIt<CasteDetailsCubit>(param1: settings.arguments as int , param2: "movie")),
+              BlocProvider(create: (context) => DependencyInjection.getIt<TrailerCubit>(param1: settings.arguments as int , param2: "movie")),
+              BlocProvider(create: (context) => DependencyInjection.getIt<SimilarCubit>(param1: settings.arguments as int , param2: "movie")),
+              BlocProvider(create: (context) => DependencyInjection.getIt<ReviewCubit>(param1: settings.arguments as int , param2: "movie")),
+            ],
+            child:MovieDetailsScreen()));
+
+
+      /// TV Details Screen
+
+      case AppRouteNames.tvDetails:
+        return MaterialPageRoute(builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => DependencyInjection.getIt<TapCubit>()),
+              BlocProvider(create: (context) => DependencyInjection.getIt<AppBarScrollCubit>()),
+              BlocProvider(create: (context) => DependencyInjection.getIt<TvDetailsCubit>(param1: settings.arguments as int)),
+              BlocProvider(create: (context) => DependencyInjection.getIt<TvSeasonCubit>(param1: settings.arguments as int)),
+              BlocProvider(create: (context) => DependencyInjection.getIt<CasteDetailsCubit>(param1: settings.arguments as int , param2: "tv")),
+              BlocProvider(create: (context) => DependencyInjection.getIt<TrailerCubit>(param1: settings.arguments as int , param2: "tv")),
+              BlocProvider(create: (context) => DependencyInjection.getIt<SimilarCubit>(param1: settings.arguments as int , param2: "tv")),
+              BlocProvider(create: (context) => DependencyInjection.getIt<ReviewCubit>(param1: settings.arguments as int , param2: "tv")),
+            ],
+            child:TvDerailsScreen()));
 
       default:
         return MaterialPageRoute(builder: (_) => Scaffold());

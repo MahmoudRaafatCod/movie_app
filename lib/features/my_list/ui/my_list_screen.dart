@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/core/constants/extensions/assets.dart';
 import 'package:movie/core/constants/extensions/context_extension.dart';
-import 'package:movie/core/routing/route_names.dart';
+import 'package:movie/core/routing/app_route_names.dart';
 import 'package:movie/features/my_list/logic/saved_movies/saved_movies_cubit.dart';
 import 'package:movie/features/my_list/ui/widget/button_custom.dart';
 
@@ -18,7 +18,7 @@ class MyListScreen extends StatelessWidget {
 
           actions: [
             IconButton(onPressed: (){
-              Navigator.pushNamed(context, RouteNames.search.name);
+              Navigator.pushNamed(context, AppRouteNames.search);
             }, icon: Icon(Icons.search))
           ],
         ),
@@ -107,13 +107,13 @@ class MyListScreen extends StatelessWidget {
                               if (movie.mediaType == "movie") {
                                 Navigator.pushNamed(
                                   context,
-                                  RouteNames.movieDetails.name,
+                                  AppRouteNames.movieDetails,
                                   arguments: movie.id,
                                 );
                               } else {
                                 Navigator.pushNamed(
                                   context,
-                                  RouteNames.tvDetails.name,
+                                  AppRouteNames.tvDetails,
                                   arguments: movie.id,
                                 );
                               }

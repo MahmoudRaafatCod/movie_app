@@ -5,13 +5,16 @@ import 'package:movie/features/movie_details/data/movie_details_repo.dart';
 part 'review_state.dart';
 
 class ReviewCubit extends Cubit<ReviewState> {
-  ReviewCubit(int id , String type) : super(ReviewInitial()){
-    getReview(id , type);
+  final MovieDetailsRepo _repo;
+  final int id;
+  final String type;
+  ReviewCubit(this._repo , {required this.id , required this.type}) : super(ReviewInitial()){
+    getReview();
 
   }
 
-  void getReview(int id , String type){
-    MovieDetailsRepo().movieReview(id , type).then((value) {
+  void getReview(){
+    _repo.movieReview(id , type).then((value) {
       emit(ReviewSuccess(value));
     });
   }
