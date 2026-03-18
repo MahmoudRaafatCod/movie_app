@@ -91,9 +91,46 @@ lib/
 
 ## 📸 Screenshots / لقطات من التطبيق
 
-| Home | Search | My List | Profile |
-| :---: | :---: | :---: | :---: |
-| ![Home](https://via.placeholder.com/150) | ![Search](https://via.placeholder.com/150) | ![My List](https://via.placeholder.com/150) | ![Profile](https://via.placeholder.com/150) |
+<table align="center">
+  <!-- Home Screen Section -->
+  <tr>
+    <th colspan="3">🏠 Home Screen / الشاشة الرئيسية</th>
+  </tr>
+  <tr>
+    <td align="center"><img src="https://f.top4top.io/p_3729gk6x96.png" width="220" alt="Home 1"></td>
+    <td align="center"><img src="https://e.top4top.io/p_3729y310y1.png" width="220" alt="Home 2"></td>
+    <td align="center"><img src="https://a.top4top.io/p_3729h1ma91.png" width="220" alt="Home 3"></td>
+  </tr>
+
+  <!-- Search Screen Section -->
+  <tr>
+    <th colspan="3">🔍 Search Screen / شاشة البحث</th>
+  </tr>
+  <tr>
+    <td align="center"><img src="https://e.top4top.io/p_3729wh2895.png" width="220" alt="Search 1"></td>
+    <td align="center"><img src="https://d.top4top.io/p_3729gw0tw4.png" width="220" alt="Search 2"></td>
+    <td align="center"><img src="https://b.top4top.io/p_37298cqq52.png" width="220" alt="Search 3"></td>
+  </tr>
+
+  <!-- My List Section -->
+  <tr>
+    <th colspan="3">📑 My List / قائمتي</th>
+  </tr>
+  <tr>
+    <td align="center"><img src="https://c.top4top.io/p_3729090bn3.png" width="220" alt="My List 1"></td>
+    <td align="center"><img src="https://b.top4top.io/p_3729ow1fq2.png" width="220" alt="My List 2"></td>
+    <td align="center"><img src="https://c.top4top.io/p_3729i33tr3.png" width="220" alt="My List 3"></td>
+  </tr>
+
+  <!-- Profile Section -->
+  <tr>
+    <th colspan="3">👤 Profile / الملف الشخصي</th>
+  </tr>
+  <tr>
+    <td align="center"><img src="https://a.top4top.io/p_37296970v1.png" width="220" alt="Profile 1"></td>
+    <td align="center"><img src="https://d.top4top.io/p_3729miacg4.png" width="220" alt="Profile 2"></td>
+  </tr>
+</table>
 
 ---
 
