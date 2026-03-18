@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie/core/constants/local_storage/local_storage_app.dart';
 import 'package:movie/core/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:movie/core/theme/theme.dart';
@@ -33,7 +34,8 @@ class MovieApp extends StatelessWidget {
             onGenerateRoute: AppRouter.onGenerateRoute,
             theme: lightMode,
             darkTheme: darkMode,
-            themeMode: themeMode,
+            // themeMode: themeMode,
+            themeMode: LocalStorageApp.currentTheme!= 'ThemeMode.dark' ? ThemeMode.light : ThemeMode.dark,
           );
         },
       ),
