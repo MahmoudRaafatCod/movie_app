@@ -15,7 +15,6 @@ class MovieApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => NavCubit()),
         BlocProvider(create: (_) => TranslationCubit()),
         BlocProvider(create: (_) => ThemeCubit()),
         BlocProvider(create: (_) => SavedMoviesCubit()),
