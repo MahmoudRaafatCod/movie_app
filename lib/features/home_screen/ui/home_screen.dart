@@ -72,12 +72,12 @@ class HomeScreen extends StatelessWidget {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       crossAxisAlignment: context.isEnglish? CrossAxisAlignment.start :CrossAxisAlignment.end,
                                       children: [
-                                        Text(movie.title!, style: const TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold,),),
+                                        Text(movie.title, style: const TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold,),),
                                         const SizedBox(height: 5),
                                         BlocBuilder<GenresCubit, GenresState>(
                                           builder: (context, genreState) {
                                             if (genreState is GenreLoaded) {
-                                              return Text(movie.genreNames(genreState.genreMap,), style: const TextStyle(color: Colors.white, fontSize: 12,));
+                                              return Text(movie.genreNames(genreState.genreMap), style: const TextStyle(color: Colors.white, fontSize: 12,));
                                             } else {
                                               return const Text("");
                                             }
@@ -140,7 +140,7 @@ class HomeScreen extends StatelessWidget {
                         return ImageScroll(movies: nowPlayingState.movies);
                       } else if (nowPlayingState is NowPlayingFailure) {
                         return Center(
-                          child: Text("failed_to_load_movies".tr()),
+                          child: Text(nowPlayingState.error),
                         );
                       } else {
                         return const Center(child: CircularProgressIndicator());
@@ -162,7 +162,7 @@ class HomeScreen extends StatelessWidget {
                       if (upcoming is UpcomingSuccess) {
                         return ImageScroll(movies: upcoming.movies);
                       } else if (upcoming is UpcomingFailure) {
-                        return Center(child: Text("failed_to_load_movies".tr()),);
+                        return Center(child: Text(upcoming.error));
                       } else {
                         return const Center(child: CircularProgressIndicator());
                       }
@@ -184,7 +184,7 @@ class HomeScreen extends StatelessWidget {
                         return ImageScroll(movies: topTrending.movies);
                       } else if (topTrending is TrendingFailure) {
                         return Center(
-                          child: Text("failed_to_load_movies".tr()),
+                          child: Text(topTrending.error),
                         );
                       } else {
                         return const Center(child: CircularProgressIndicator());
@@ -207,7 +207,7 @@ class HomeScreen extends StatelessWidget {
                       if (topRated is TopRatedSuccess) {
                         return ImageScroll(movies: topRated.movies);
                       }else if (topRated is TopRatedFailure) {
-                        return Center(child: Text("failed_to_load_movies".tr()),);
+                        return Center(child: Text(topRated.error),);
                       }else {
                         return const Center(child: CircularProgressIndicator());
                       }
@@ -230,7 +230,7 @@ class HomeScreen extends StatelessWidget {
                       if (state is PopularTvSuccess) {
                         return ImageScroll(movies: state.movies , isTV: true);
                       }else if (state is  PopularTvFailure) {
-                        return Center(child: Text("failed_to_load_movies".tr()),);
+                        return Center(child: Text(state.error),);
                       }else {
                         return const Center(child: CircularProgressIndicator());
                       }
@@ -252,7 +252,7 @@ class HomeScreen extends StatelessWidget {
                       if (state is OnTheAirSuccess) {
                         return ImageScroll(movies: state.results , isTV: true);
                       }else if (state is  OnTheAirFailure) {
-                        return Center(child: Text("failed_to_load_movies".tr()),);
+                        return Center(child: Text(state.error),);
                       }else {
                         return const Center(child: CircularProgressIndicator());
                       }

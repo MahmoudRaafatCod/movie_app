@@ -6,7 +6,7 @@ class SortCubit extends Cubit<List<Map<String, String>>> {
     generateSort();
   }
 
-  String selectedSort = "Most Popular";
+  String selectedSort = "most_popular";
 
   void selectSort(String sort) {
     selectedSort = sort;

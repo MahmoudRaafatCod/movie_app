@@ -207,7 +207,7 @@ class ActorDetailsScreen extends StatelessWidget {
                                         ),
                                         const SizedBox(height: 8),
                                         Text(
-                                          movie.title ?? "",
+                                          movie.title,
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(

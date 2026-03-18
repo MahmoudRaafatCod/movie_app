@@ -72,10 +72,12 @@ class BottomSheetContent extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (_, index) {
                   final language = state[index];
+                  final String name = language["name"] ?? "";
+                  final String code = language["code"] ?? "all";
                 return SelectedBottom(
-                  text: language["name"]!, isSelected: context.read<RegionsCubit>().selectedLanguage == language["code"] , onTap: () {
-                    context.read<RegionsCubit>().selectLanguage(language["code"]!);
-                    context.read<SearchCubit>().setLanguage(language["code"]);
+                  text: name, isSelected: context.read<RegionsCubit>().selectedLanguage == code , onTap: () {
+                    context.read<RegionsCubit>().selectLanguage(code);
+                    context.read<SearchCubit>().setLanguage(code);
                      });
                    },
                 separatorBuilder: (_,_) => const SizedBox(width: 10,),
@@ -149,12 +151,13 @@ class BottomSheetContent extends StatelessWidget {
                 return ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (_, index) {
-                      final language = state[index];
+                      final sortOption = state[index];
+                      final String nameKey = sortOption["name"] ?? "";
+                      final String code = sortOption["code"] ?? "popularity.desc";
                       return SelectedBottom(
-                      text: language["name"]!.tr(), isSelected: context.read<SortCubit>().selectedSort == language["name"] , onTap: () {
-                        context.read<SortCubit>().selectSort(language["name"]!);
-                        context.read<SearchCubit>().setSortBy(language["code"]);
-
+                      text: nameKey.tr(), isSelected: context.read<SortCubit>().selectedSort == nameKey , onTap: () {
+                        context.read<SortCubit>().selectSort(nameKey);
+                        context.read<SearchCubit>().setSortBy(code);
                       });
                     },
                     separatorBuilder: (_,_) => const SizedBox(width: 10,),
@@ -175,7 +178,7 @@ class BottomSheetContent extends StatelessWidget {
                 context.read<SearchCubit>().resetGenres();
                 context.read<GenreCubit>().getGenres();
                 context.read<TimeCubit>().selectYear("All Time");
-                context.read<SortCubit>().selectSort("Most Popular");
+                context.read<SortCubit>().selectSort("most_popular");
                 context.read<SearchCubit>().getTrending();
               },),
               ButtonWidget(text: "apply".tr(),color: context.primaryColor, onPressed: (){

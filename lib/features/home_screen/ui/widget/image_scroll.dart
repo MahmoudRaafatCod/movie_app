@@ -33,7 +33,12 @@ class ImageScroll extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
                     image: NetworkImage(
-                      "${Assets.baseUrl}${movie.posterPath}",), fit: BoxFit.fill,),
+                      movie.posterPath != null 
+                          ? "${Assets.baseUrl}${movie.posterPath}" 
+                          : Assets.errorImage,
+                    ), 
+                    fit: BoxFit.fill,
+                  ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(12),
@@ -46,8 +51,10 @@ class ImageScroll extends StatelessWidget {
                         color: context.primaryColor,
                       ),
                       child: Text(
-                        movie.voteAverage.toStringAsFixed(1),
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        movie.voteAverage != null 
+                            ? movie.voteAverage.toStringAsFixed(1) 
+                            : "0.0",
+                        style: const TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ),
                   ),

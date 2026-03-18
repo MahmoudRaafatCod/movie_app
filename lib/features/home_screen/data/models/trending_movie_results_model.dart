@@ -1,5 +1,6 @@
 class TrendingMovieResultsModel {
-  String? posterPath , mediaType , title;
+  String? posterPath , mediaType;
+  String title;
   int id;
   List<int>? genreIds;
   num voteAverage;

@@ -16,8 +16,8 @@ class HomeRepo {
       );
       TrendingMovieModel model = TrendingMovieModel.fromJson(res);
       return model;
-    } catch (e) {
-      return e.toString();
+    } catch (s) {
+      return s.toString();
     }
   }
 
@@ -29,8 +29,8 @@ class HomeRepo {
       );
       TrendingMovieModel model = TrendingMovieModel.fromJson(res);
       return model;
-    } catch (e) {
-      return e.toString();
+    } catch (s) {
+      return s.toString();
     }
   }
 
@@ -42,8 +42,8 @@ class HomeRepo {
       );
       TrendingMovieModel model = TrendingMovieModel.fromJson(res);
       return model;
-    } catch (e) {
-      return e.toString();
+    } catch (s) {
+      return s.toString();
     }
   }
 
@@ -58,8 +58,8 @@ class HomeRepo {
         LocalStorageApp.setGenres(model);
         return model;
       }
-    } catch (e) {
-      return e.toString();
+    } catch (s) {
+      return s.toString();
     }
   }
 }
