@@ -6,7 +6,9 @@ class TrendingMovieModel {
   TrendingMovieModel({required this.results});
 
   factory TrendingMovieModel.fromJson(Map<String, dynamic> json) => TrendingMovieModel(
-    results: List<TrendingMovieResultsModel>.from(json["results"].map((x) => TrendingMovieResultsModel.fromJson(x))),
+    results: json["results"] != null
+        ? List<TrendingMovieResultsModel>.from(json["results"].map((x) => TrendingMovieResultsModel.fromJson(x)))
+        : [],
   );
 
   Map<String, dynamic> toJson() => {

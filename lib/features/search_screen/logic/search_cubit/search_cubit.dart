@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie/features/home_screen/data/models/trending_movie_model.dart';
 import 'package:movie/features/home_screen/data/models/trending_movie_results_model.dart';
 import 'package:movie/features/search_screen/data/search_repo.dart';
 
@@ -50,14 +51,22 @@ class SearchCubit extends Cubit<SearchState> {
           sortBy ?? "popularity.desc",
         )
         .then((value) {
-          emit(SearchSuccess(value.results));
-        });
+      if (value is TrendingMovieModel) {
+        emit(SearchSuccess(value.results));
+      } else {
+        emit(SearchError(value.toString()));
+      }
+    });
   }
 
   void getTrending() {
     if (searchController.text.isEmpty) {
       _repo.getTrending().then((value) {
-        emit(SearchSuccess(value.results));
+        if (value is TrendingMovieModel) {
+          emit(SearchSuccess(value.results));
+        } else {
+          emit(SearchError(value.toString()));
+        }
       });
     } else if (type != null) {
       filter();
@@ -72,7 +81,7 @@ class SearchCubit extends Cubit<SearchState> {
       if (value is List<TrendingMovieResultsModel>) {
         emit(SearchSuccess(value));
       } else {
-        emit(SearchError(value));
+        emit(SearchError(value.toString()));
       }
     });
   }

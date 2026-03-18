@@ -124,6 +124,8 @@ class SearchScreen extends StatelessWidget {
                               Text("not_found".tr(), style: TextStyle(color: context.primaryColor, fontSize: 25)),
                               const SizedBox(height: 15),
                               Text("not_found_message".tr(), textAlign: TextAlign.center),
+                              const SizedBox(height: 15),
+                              Text("data")
                             ],
                           );
                         }
@@ -175,16 +177,7 @@ class SearchScreen extends StatelessWidget {
                           itemCount: state.searchResult.length,
                         );
                       } else if (state is SearchError) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(context.imagesError),
-                            const SizedBox(height: 10),
-                            Text("not_found".tr(), style: TextStyle(color: context.primaryColor, fontSize: 25)),
-                            const SizedBox(height: 15),
-                            Text("not_found_message".tr(), textAlign: TextAlign.center),
-                          ],
-                        );
+                        return Center(child: Text(state.error));
                       }
                       return Container();
                     },
