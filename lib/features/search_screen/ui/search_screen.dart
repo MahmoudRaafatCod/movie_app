@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,7 +67,7 @@ class SearchScreen extends StatelessWidget {
                               onChanged: (_) => context.read<SearchCubit>().search(),
                               cursorColor: context.primaryColor,
                               decoration: InputDecoration(
-                                hintText: "Search",
+                                hintText: "search".tr(),
                                 prefixIcon: Icon(Icons.search, color: isFocused ? context.primaryColor : Assets.grayColor),
                                 suffixIcon: context.watch<SearchCubit>().searchController.text.isEmpty 
                                     ? null
@@ -114,6 +115,18 @@ class SearchScreen extends StatelessWidget {
                       if (state is SearchLoading) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (state is SearchSuccess) {
+                        if (state.searchResult.isEmpty) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(context.imagesError),
+                              const SizedBox(height: 10),
+                              Text("not_found".tr(), style: TextStyle(color: context.primaryColor, fontSize: 25)),
+                              const SizedBox(height: 15),
+                              Text("not_found_message".tr(), textAlign: TextAlign.center),
+                            ],
+                          );
+                        }
                         return GridView.builder(
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: context.isLandscape ? 5 : 2,
@@ -135,7 +148,7 @@ class SearchScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   image: DecorationImage(
-                                    image: NetworkImage("${Assets.baseUrl}${movie.posterPath}"),
+                                    image: NetworkImage( movie.posterPath != null ? "${Assets.baseUrl}${movie.posterPath}" : Assets.errorImage),
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -167,9 +180,9 @@ class SearchScreen extends StatelessWidget {
                           children: [
                             Image.asset(context.imagesError),
                             const SizedBox(height: 10),
-                            Text("Not Found", style: TextStyle(color: context.primaryColor, fontSize: 25)),
+                            Text("not_found".tr(), style: TextStyle(color: context.primaryColor, fontSize: 25)),
                             const SizedBox(height: 15),
-                            const Text("Sorry, the keyword you entered could not be found.", textAlign: TextAlign.center),
+                            Text("not_found_message".tr(), textAlign: TextAlign.center),
                           ],
                         );
                       }

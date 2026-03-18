@@ -15,14 +15,14 @@ class SortCubit extends Cubit<List<Map<String, String>>> {
 
   void generateSort() {
     final List<Map<String, String>> sortOptions = [
-      {"name": "Most Popular", "code": "popularity.desc"},
-      {"name": "Least Popular", "code": "popularity.asc"},
-      {"name": "Newest First", "code": "release_date.desc"},
-      {"name": "Oldest First", "code": "release_date.asc"},
-      {"name": "Highest Rated", "code": "vote_average.desc"},
-      {"name": "Lowest Rated", "code": "vote_average.asc"},
-      {"name": "Most Votes", "code": "vote_count.desc"},
-      {"name": "Fewest Votes", "code": "vote_count.asc"},
+      {"name": "most_popular", "code": "popularity.desc"},
+      {"name": "least_popular", "code": "popularity.asc"},
+      {"name": "newest_first", "code": "release_date.desc"},
+      {"name": "oldest_first", "code": "release_date.asc"},
+      {"name": "highest_rated", "code": "vote_average.desc"},
+      {"name": "lowest_rated", "code": "vote_average.asc"},
+      {"name": "most_votes", "code": "vote_count.desc"},
+      {"name": "fewest_votes", "code": "vote_count.asc"}
     ];
 
     emit(sortOptions);

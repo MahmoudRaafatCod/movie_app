@@ -4,12 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/core/constants/extensions/assets.dart';
 import 'package:movie/core/constants/extensions/context_extension.dart';
 import 'package:movie/core/routing/app_route_names.dart';
-import 'package:movie/features/home_screen/logic/app_bar_scroll/app_bar_scroll_cubit.dart';
 import 'package:movie/features/home_screen/logic/now_playing/now_playing_cubit.dart';
 import 'package:movie/features/home_screen/logic/on_the_air_tv/on_the_air_cubit.dart';
 import 'package:movie/features/home_screen/logic/popular_tv/popular_tv_cubit.dart';
-import 'package:movie/features/home_screen/logic/theme_cubit/theme_cubit.dart';
-import 'package:movie/features/home_screen/logic/translaton_cubit/translaton_cubit.dart';
 import 'package:movie/features/more_movie_screen/data/models/more_movie_args.dart';
 import 'package:movie/features/home_screen/logic/Slider/slider_cubit.dart';
 import 'package:movie/features/home_screen/logic/genres/genres_cubit.dart';
@@ -30,32 +27,7 @@ class HomeScreen extends StatelessWidget {
     return  SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(kToolbarHeight),
-          child: BlocBuilder<AppBarScrollCubit, double>(
-            builder: (context, opacity) {
-              return AppBar(
-                backgroundColor: context.appBarColor.withValues(alpha: opacity),
-                elevation: 0,
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.language),
-                    onPressed: () {
-                      context.read<TranslationCubit>().toggleLanguage(context);
-                    },
-                  ),
-                  SizedBox(width: 12),
-                  IconButton(
-                    icon: const Icon(Icons.brightness_6),
-                    onPressed: () {
-                      context.read<ThemeCubit>().toggleTheme();
-                    },
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
+
         body: SingleChildScrollView(
             child: Column(
                 children: [
@@ -81,7 +53,9 @@ class HomeScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      "${Assets.baseUrl}${movie.posterPath}",
+                                        movie.posterPath != null ?
+                                      "${Assets.baseUrl}${movie.posterPath}" :
+                                            Assets.errorImage,
                                     ),
                                     fit: BoxFit.fill,
                                     colorFilter: ColorFilter.mode(
@@ -91,20 +65,19 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: context.isEnglish? EdgeInsets.only(bottom: 40, left: 30,) : EdgeInsets.only(bottom: 40, right: 30,),
+                                  padding: EdgeInsets.only(bottom: 40, left: 30,),
                                   child: Align(
-                                    alignment: context.isEnglish ? Alignment.bottomLeft : Alignment.bottomRight,
+                                    alignment: Alignment.bottomLeft,
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: context.isEnglish? CrossAxisAlignment.start :CrossAxisAlignment.end,
                                       children: [
                                         Text(movie.title!, style: const TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold,),),
                                         const SizedBox(height: 5),
                                         BlocBuilder<GenresCubit, GenresState>(
                                           builder: (context, genreState) {
                                             if (genreState is GenreLoaded) {
-                                              return Text(movie.genreNames(genreState.genreMap,), style: const TextStyle(color: Colors.white, fontSize: 12,),);
+                                              return Text(movie.genreNames(genreState.genreMap,), style: const TextStyle(color: Colors.white, fontSize: 12,));
                                             } else {
                                               return const Text("");
                                             }
@@ -133,8 +106,8 @@ class HomeScreen extends StatelessWidget {
                   ///Top 10 Movies
 
                   RegionCard(
-                    name: "Top 10 Movies This Week",
-                    onViewMore: ()=>Navigator.of(context).pushNamed(AppRouteNames.moreMovieData , arguments: MoreMovieArgs(category: "week", title: "Top 10 Movies This Week" , isTopTen: true)),
+                    name: "top_10_movies_this_week".tr(),
+                    onViewMore: ()=>Navigator.of(context).pushNamed(AppRouteNames.moreMovieData , arguments: MoreMovieArgs(category: "week", title: "top_10_movies_this_week".tr() , isTopTen: true)),
                   ),
                   const SizedBox(height: 10),
                   BlocBuilder<TopTenCubit, TopTenState>(
@@ -166,8 +139,8 @@ class HomeScreen extends StatelessWidget {
                       if (nowPlayingState is NowPlayingSuccess) {
                         return ImageScroll(movies: nowPlayingState.movies);
                       } else if (nowPlayingState is NowPlayingFailure) {
-                        return const Center(
-                          child: Text("Failed to load movies"),
+                        return Center(
+                          child: Text("failed_to_load_movies".tr()),
                         );
                       } else {
                         return const Center(child: CircularProgressIndicator());
@@ -178,9 +151,9 @@ class HomeScreen extends StatelessWidget {
                   ///Upcoming Movies
                   const SizedBox(height: 15),
                   RegionCard(
-                    name: "upcoming Movies",
+                    name: "upcoming_movies".tr(),
                     onViewMore: () {
-                      Navigator.pushNamed(context, AppRouteNames.moreMovieData , arguments: MoreMovieArgs(category: "upcoming", title: "upcoming Movies"));
+                      Navigator.pushNamed(context, AppRouteNames.moreMovieData , arguments: MoreMovieArgs(category: "upcoming", title: "upcoming_movies".tr()));
                     },
                   ),
                   const SizedBox(height: 10),
@@ -189,7 +162,7 @@ class HomeScreen extends StatelessWidget {
                       if (upcoming is UpcomingSuccess) {
                         return ImageScroll(movies: upcoming.movies);
                       } else if (upcoming is UpcomingFailure) {
-                        return const Center(child: Text("Failed to load movies"),);
+                        return Center(child: Text("failed_to_load_movies".tr()),);
                       } else {
                         return const Center(child: CircularProgressIndicator());
                       }
@@ -199,9 +172,9 @@ class HomeScreen extends StatelessWidget {
                   ///Popular Movies
                   const SizedBox(height: 15),
                   RegionCard(
-                    name: "Popular Movies",
+                    name: "popular_movies".tr(),
                     onViewMore: () {
-                      Navigator.pushNamed(context, AppRouteNames.moreMovieData , arguments: MoreMovieArgs(category: "popular", title: "Popular Movies"));
+                      Navigator.pushNamed(context, AppRouteNames.moreMovieData , arguments: MoreMovieArgs(category: "popular", title: "popular_movies".tr()));
                     },
                   ),
                   const SizedBox(height: 10),
@@ -210,8 +183,8 @@ class HomeScreen extends StatelessWidget {
                       if (topTrending is TrendingSuccess) {
                         return ImageScroll(movies: topTrending.movies);
                       } else if (topTrending is TrendingFailure) {
-                        return const Center(
-                          child: Text("Failed to load movies"),
+                        return Center(
+                          child: Text("failed_to_load_movies".tr()),
                         );
                       } else {
                         return const Center(child: CircularProgressIndicator());
@@ -223,9 +196,9 @@ class HomeScreen extends StatelessWidget {
                   ///Top Rated Movies
                   const SizedBox(height: 15),
                   RegionCard(
-                    name: "Top Rated Movies",
+                    name: "top_rated_movies".tr(),
                     onViewMore: () {
-                      Navigator.pushNamed(context, AppRouteNames.moreMovieData , arguments: MoreMovieArgs(category: "top_rated", title: "Top Rated Movies"));
+                      Navigator.pushNamed(context, AppRouteNames.moreMovieData , arguments: MoreMovieArgs(category: "top_rated", title: "top_rated_movies".tr()));
                     },
                   ),
                   const SizedBox(height: 10),
@@ -234,7 +207,7 @@ class HomeScreen extends StatelessWidget {
                       if (topRated is TopRatedSuccess) {
                         return ImageScroll(movies: topRated.movies);
                       }else if (topRated is TopRatedFailure) {
-                        return const Center(child: Text("Failed to load movies"),);
+                        return Center(child: Text("failed_to_load_movies".tr()),);
                       }else {
                         return const Center(child: CircularProgressIndicator());
                       }
@@ -246,9 +219,9 @@ class HomeScreen extends StatelessWidget {
                   ///Popular TV Shows
                   const SizedBox(height: 15),
                   RegionCard(
-                    name: "Popular TV Shows",
+                    name: "popular_tv_shows".tr(),
                     onViewMore: () {
-                      Navigator.pushNamed(context, AppRouteNames.moreMovieData , arguments: MoreMovieArgs(category: "popular", title: "Popular TV Shows" , isTVShow: true));
+                      Navigator.pushNamed(context, AppRouteNames.moreMovieData , arguments: MoreMovieArgs(category: "popular", title: "popular_tv_shows".tr() , isTVShow: true));
                     },
                   ),
                   const SizedBox(height: 10),
@@ -257,7 +230,7 @@ class HomeScreen extends StatelessWidget {
                       if (state is PopularTvSuccess) {
                         return ImageScroll(movies: state.movies , isTV: true);
                       }else if (state is  PopularTvFailure) {
-                        return const Center(child: Text("Failed to load movies"),);
+                        return Center(child: Text("failed_to_load_movies".tr()),);
                       }else {
                         return const Center(child: CircularProgressIndicator());
                       }
@@ -268,9 +241,9 @@ class HomeScreen extends StatelessWidget {
                   ///On The Air TV
                   const SizedBox(height: 15),
                   RegionCard(
-                    name: "On The Air",
+                    name: "on_the_air".tr(),
                     onViewMore: () {
-                      Navigator.pushNamed(context, AppRouteNames.moreMovieData , arguments: MoreMovieArgs(category: "on_the_air", title: "On The Air" , isTVShow: true));
+                      Navigator.pushNamed(context, AppRouteNames.moreMovieData , arguments: MoreMovieArgs(category: "on_the_air", title: "on_the_air".tr() , isTVShow: true));
                     },
                   ),
                   const SizedBox(height: 10),
@@ -279,7 +252,7 @@ class HomeScreen extends StatelessWidget {
                       if (state is OnTheAirSuccess) {
                         return ImageScroll(movies: state.results , isTV: true);
                       }else if (state is  OnTheAirFailure) {
-                        return const Center(child: Text("Failed to load movies"),);
+                        return Center(child: Text("failed_to_load_movies".tr()),);
                       }else {
                         return const Center(child: CircularProgressIndicator());
                       }

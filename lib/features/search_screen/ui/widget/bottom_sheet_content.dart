@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie/core/constants/extensions/assets.dart';
 import 'package:movie/core/constants/extensions/context_extension.dart';
 import 'package:movie/features/search_screen/logic/search_cubit/search_cubit.dart';
 import 'package:movie/features/search_screen/logic/selected_cubit/Sort_cubit/sort_cubit.dart';
@@ -32,13 +34,13 @@ class BottomSheetContent extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20,),
-          Center(child: Text("Sort & Filter" , style: TextStyle(color: context.primaryColor.withAlpha(170) , fontSize: 20 , fontWeight: FontWeight.bold),)),
+          Center(child: Text("sort_filter".tr() , style: TextStyle(color: context.primaryColor.withAlpha(170) , fontSize: 20 , fontWeight: FontWeight.bold , fontFamily: Assets.cairoFont),)),
           const SizedBox(height: 10,),
           Divider(),
           const SizedBox(height: 20,),
 
 
-          Text("Categories:" , style: TextStyle( fontSize: 16 , fontWeight: FontWeight.bold),),
+          Text("categories".tr() , style: TextStyle( fontSize: 16 , fontWeight: FontWeight.bold , fontFamily: Assets.cairoFont),),
           const SizedBox(height: 10,),
           BlocBuilder<CategoryCubit, int>(
             builder: (context, state) {
@@ -60,7 +62,7 @@ class BottomSheetContent extends StatelessWidget {
           const SizedBox(height: 20,),
 
 
-          Text("Regions:" , style: TextStyle( fontSize: 16 , fontWeight: FontWeight.bold)),
+          Text("regions".tr() , style: TextStyle( fontSize: 16 , fontWeight: FontWeight.bold , fontFamily: Assets.cairoFont)),
           const SizedBox(height: 10,),
           SizedBox(
             height: 35,
@@ -84,7 +86,7 @@ class BottomSheetContent extends StatelessWidget {
           const SizedBox(height: 20,),
 
 
-          Text("Genre:" , style: TextStyle( fontSize: 16 , fontWeight: FontWeight.bold)),
+          Text("genre".tr() , style: TextStyle( fontSize: 16 , fontWeight: FontWeight.bold , fontFamily: Assets.cairoFont)),
           const SizedBox(height: 10,),
           SizedBox(
             height: 35,
@@ -115,7 +117,7 @@ class BottomSheetContent extends StatelessWidget {
           const SizedBox(height: 20,),
 
 
-          Text("Time/Periods:" , style: TextStyle( fontSize: 16 , fontWeight: FontWeight.bold)),
+          Text("time_periods".tr() , style: TextStyle( fontSize: 16 , fontWeight: FontWeight.bold , fontFamily: Assets.cairoFont)),
           const SizedBox(height: 10,),
           SizedBox(
             height: 35,
@@ -138,7 +140,7 @@ class BottomSheetContent extends StatelessWidget {
           const SizedBox(height: 20,),
 
 
-          Text("Sort:" , style: TextStyle( fontSize: 16 , fontWeight: FontWeight.bold)),
+          Text("sort".tr() , style: TextStyle( fontSize: 16 , fontWeight: FontWeight.bold , fontFamily: Assets.cairoFont)),
           const SizedBox(height: 10,),
           SizedBox(
             height: 35,
@@ -149,7 +151,7 @@ class BottomSheetContent extends StatelessWidget {
                     itemBuilder: (_, index) {
                       final language = state[index];
                       return SelectedBottom(
-                      text: language["name"]!, isSelected: context.read<SortCubit>().selectedSort == language["name"] , onTap: () {
+                      text: language["name"]!.tr(), isSelected: context.read<SortCubit>().selectedSort == language["name"] , onTap: () {
                         context.read<SortCubit>().selectSort(language["name"]!);
                         context.read<SearchCubit>().setSortBy(language["code"]);
 
@@ -168,7 +170,7 @@ class BottomSheetContent extends StatelessWidget {
            Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ButtonWidget(text: "Reset",color: context.buttonColor, textColor: context.textButtonColor, onPressed: (){
+              ButtonWidget(text: "reset".tr(),color: context.buttonColor, textColor: context.textButtonColor, onPressed: (){
                 context.read<RegionsCubit>().selectLanguage("all");
                 context.read<SearchCubit>().resetGenres();
                 context.read<GenreCubit>().getGenres();
@@ -176,7 +178,7 @@ class BottomSheetContent extends StatelessWidget {
                 context.read<SortCubit>().selectSort("Most Popular");
                 context.read<SearchCubit>().getTrending();
               },),
-              ButtonWidget(text: "Apply",color: context.primaryColor, onPressed: (){
+              ButtonWidget(text: "apply".tr(),color: context.primaryColor, onPressed: (){
                 context.read<SearchCubit>().filter();
                 Navigator.pop(context);
               },),

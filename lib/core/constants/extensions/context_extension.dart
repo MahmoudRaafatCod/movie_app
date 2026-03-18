@@ -19,9 +19,11 @@ extension ContextExtension on BuildContext {
 
   Color get scaffoldBackgroundColor => Theme.of(this).scaffoldBackgroundColor;
 
-  Color get navBarColor => isDark 
-      ? const Color(0xff1C1C23).withValues(alpha: 0.9)
-      : Colors.white.withValues(alpha:0.9);
+  Color get navBarBgColor => isDark
+      ? const Color(0xff1f222b)
+      : Color(0xfff5f5f5);
+
+   Color get inactiveIconColor => isDark ? Colors.grey[400]! : Colors.grey[600]!;
 
   Color get navBarUnselectedColor =>
       isDark ? Colors.grey[600]! : Colors.grey[400]!;
@@ -39,6 +41,7 @@ extension ContextExtension on BuildContext {
   Color get buttonColor => isDark ? Color(0xff363940) : primaryColor.withAlpha(50);
 
   Color get textButtonColor => isDark ? Colors.white : primaryColor;
+
 
   String get imagesError => isDark ? Assets.errorDark : Assets.error;
 }

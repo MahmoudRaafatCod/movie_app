@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie/core/constants/extensions/assets.dart';
 
 class ButtonWidget extends StatelessWidget {
   final String text;
@@ -16,7 +17,7 @@ class ButtonWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25),
       ),
-      child: Text(text , style: TextStyle(color: textColor , fontSize: 16 , fontWeight: FontWeight.bold),),
+      child: Text(text , style: TextStyle(color: textColor , fontSize: 16 , fontWeight: FontWeight.bold , fontFamily: Assets.cairoFont),),
     );
   }
 }

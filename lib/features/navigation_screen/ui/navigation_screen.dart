@@ -1,7 +1,6 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:movie/core/constants/extensions/assets.dart';
 import 'package:movie/core/constants/extensions/context_extension.dart';
 import 'package:movie/features/navigation_screen/logic/bottom_navigation_bar/nav_cubit.dart';
 
@@ -12,61 +11,42 @@ class NavigationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NavCubit, int>(
       builder: (context, index) {
-        final cubit = context.read<NavCubit>();
-
-        return Scaffold(
-          body: IndexedStack(
-            index: index,
-            children: cubit.pages,
-          ),
-          bottomNavigationBar: Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: context.shadowColor,
-                  blurRadius: 10,
-                  spreadRadius: 2,
-                ),
-              ],
+        return SafeArea(
+          top: false,
+          child: Scaffold(
+            body: IndexedStack(
+              index: index,
+              children: context.read<NavCubit>().pages,
             ),
-            child: BottomNavigationBar(
-              currentIndex: index,
+            bottomNavigationBar: CurvedNavigationBar(
+              index: index,
               onTap: (i) {
-                cubit.changeIndex(i);
+                context.read<NavCubit>().changeIndex(i);
               },
               backgroundColor: context.scaffoldBackgroundColor,
-              selectedItemColor: context.primaryColor,
-              unselectedItemColor: context.navBarUnselectedColor,
-              type: BottomNavigationBarType.fixed,
-              unselectedLabelStyle: TextStyle(
-                fontFamily: Assets.cairoFont,
-              ),
-              selectedLabelStyle: TextStyle(
-                fontFamily: Assets.cairoFont,
-              ),
-              showSelectedLabels: true,
-              // showUnselectedLabels: false,
-              elevation: 0,
-              items:  [
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset('assets/icons/Home.svg', width: 20, height: 20,),
-                  activeIcon: SvgPicture.asset('assets/icons/Home2.svg', width: 25, height: 25),
-                  label: "Home",
+              color: context.navBarBgColor,
+              buttonBackgroundColor: context.primaryColor,
+              animationDuration: const Duration(milliseconds: 300),
+              items: [
+                Icon(
+                  index == 0 ? Icons.home_rounded : Icons.home_outlined,
+                  color: index == 0 ? Colors.white : context.inactiveIconColor,
+                  size: 28,
                 ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset('assets/icons/Discovery.svg', width: 20, height: 20,),
-                  activeIcon: SvgPicture.asset('assets/icons/Discovery2.svg', width: 25, height: 25),
-                  label: "Search",
+                Icon(
+                  index == 1 ? Icons.search_rounded : Icons.search_outlined,
+                  color: index == 1 ? Colors.white : context.inactiveIconColor,
+                  size: 28,
                 ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset('assets/icons/Bookmark.svg', width: 20, height: 20,),
-                  activeIcon: SvgPicture.asset('assets/icons/Bookmark2.svg', width: 25, height: 25),
-                  label: "Favorites",
+                Icon(
+                  index == 2 ? Icons.bookmark_rounded : Icons.bookmark_outline_rounded,
+                  color: index == 2 ? Colors.white : context.inactiveIconColor,
+                  size: 28,
                 ),
-                BottomNavigationBarItem(
-                  icon: SvgPicture.asset('assets/icons/Profile.svg', width: 20, height: 20,),
-                  activeIcon: SvgPicture.asset('assets/icons/Profile2.svg', width: 25, height: 25),
-                  label: "Profile",
+                Icon(
+                  index == 3 ? Icons.settings_rounded : Icons.settings_outlined,
+                  color: index == 3 ? Colors.white : context.inactiveIconColor,
+                  size: 28,
                 ),
               ],
             ),

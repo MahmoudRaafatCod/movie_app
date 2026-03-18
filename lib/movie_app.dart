@@ -7,7 +7,6 @@ import 'package:movie/core/theme/theme.dart';
 import 'package:movie/features/home_screen/logic/theme_cubit/theme_cubit.dart';
 import 'package:movie/features/home_screen/logic/translaton_cubit/translaton_cubit.dart';
 import 'package:movie/features/my_list/logic/saved_movies/saved_movies_cubit.dart';
-import 'package:movie/features/navigation_screen/logic/bottom_navigation_bar/nav_cubit.dart';
 
 class MovieApp extends StatelessWidget {
   const MovieApp({super.key});
@@ -34,8 +33,9 @@ class MovieApp extends StatelessWidget {
             onGenerateRoute: AppRouter.onGenerateRoute,
             theme: lightMode,
             darkTheme: darkMode,
-            // themeMode: themeMode,
-            themeMode: LocalStorageApp.currentTheme!= 'ThemeMode.dark' ? ThemeMode.light : ThemeMode.dark,
+            themeMode: LocalStorageApp.currentTheme == 'ThemeMode.light'
+                ? ThemeMode.light
+                : ThemeMode.dark,
           );
         },
       ),

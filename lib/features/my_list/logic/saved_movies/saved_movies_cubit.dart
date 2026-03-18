@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/core/constants/local_storage/helpers/data_base_helper.dart';
 import 'package:movie/features/movie_details/data/models/saved_movie_model.dart';
@@ -15,17 +14,14 @@ class SavedMoviesCubit extends Cubit<SavedMoviesState> {
   List<SavedMovieModel> movies = [];
   String selectedType = "";
 
-  void loadInstallment({String? type}) async {
-    List<SavedMovieModel> data;
-
-    if (type == null) {
-      data = await _db.getMovies();
-    } else {
-      data = await _db.getMoviesByType(type);
+  Future<void> loadInstallment({String? type}) async {
+    if (type != null) {
+      selectedType = type;
     }
 
-    final moviesExist = await _db.hasMovies();
-    final tvExist = await _db.hasTv();
+    final allMovies = await _db.getMovies();
+    final bool moviesExist = allMovies.any((m) => m.mediaType == "movie");
+    final bool tvExist = allMovies.any((m) => m.mediaType == "tv");
 
     if (type == null) {
       if (moviesExist && !tvExist) {
@@ -42,9 +38,18 @@ class SavedMoviesCubit extends Cubit<SavedMoviesState> {
       }
     }
 
-    movies = data;
+    List<SavedMovieModel> displayedMovies;
+    if (selectedType == "movie") {
+      displayedMovies = allMovies.where((m) => m.mediaType == "movie").toList();
+    } else if (selectedType == "tv") {
+      displayedMovies = allMovies.where((m) => m.mediaType == "tv").toList();
+    } else {
+      displayedMovies = allMovies;
+    }
+
+    movies = allMovies;
     emit(SavedMoviesLoaded(
-      List.from(movies),
+      displayedMovies,
       hasMovies: moviesExist,
       hasTv: tvExist,
       selectedType: selectedType,
@@ -57,14 +62,11 @@ class SavedMoviesCubit extends Cubit<SavedMoviesState> {
 
     if (exist) {
       await _db.deleteMovie(movie.id);
-      movies.removeWhere((e) => e.id == movie.id);
     } else {
       await _db.createMovie(movie);
-      movies.add(movie);
     }
-    final moviesExist = await _db.hasMovies();
-    final tvExist = await _db.hasTv();
-    emit(SavedMoviesLoaded(List.from(movies), hasMovies: moviesExist, hasTv: tvExist,selectedType: selectedType));
+    
+    await loadInstallment();
   }
 
 
@@ -75,7 +77,7 @@ class SavedMoviesCubit extends Cubit<SavedMoviesState> {
   void clearMovies() async {
     await _db.clearMovies();
     movies.clear();
-
+    selectedType = "";
     emit(SavedMoviesLoaded([], hasMovies: false, hasTv: false,selectedType: ""));
   }
 }

@@ -27,7 +27,6 @@ import 'package:movie/features/movie_details/logic/review/review_cubit.dart';
 import 'package:movie/features/movie_details/logic/tap_text/tap_cubit.dart';
 import 'package:movie/features/movie_details/logic/trailer/trailer_cubit.dart';
 import 'package:movie/features/movie_details/ui/movie_details_screen.dart';
-import 'package:movie/features/my_list/logic/saved_movies/saved_movies_cubit.dart';
 import 'package:movie/features/my_list/ui/my_list_screen.dart';
 import 'package:movie/features/navigation_screen/logic/bottom_navigation_bar/nav_cubit.dart';
 import 'package:movie/features/navigation_screen/ui/navigation_screen.dart';
@@ -54,6 +53,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) =>  MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => DependencyInjection.getIt<NavCubit>()),
+
             BlocProvider(create: (context) => DependencyInjection.getIt<SearchFocusedCubit>()),
             BlocProvider(create: (context) => DependencyInjection.getIt<SearchCubit>()),
             BlocProvider(create: (context) => DependencyInjection.getIt<CategoryCubit>()),
@@ -82,7 +82,17 @@ class AppRouter {
 
         /// Search Screen
         case AppRouteNames.search:
-        return MaterialPageRoute(builder: (_) => SearchScreen());
+        return MaterialPageRoute(builder: (_) => MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => DependencyInjection.getIt<SearchFocusedCubit>()),
+            BlocProvider(create: (context) => DependencyInjection.getIt<SearchCubit>()),
+            BlocProvider(create: (context) => DependencyInjection.getIt<CategoryCubit>()),
+            BlocProvider(create: (context) => DependencyInjection.getIt<RegionsCubit>()),
+            BlocProvider(create: (context) => DependencyInjection.getIt<GenreCubit>()),
+            BlocProvider(create: (context) => DependencyInjection.getIt<TimeCubit>()),
+            BlocProvider(create: (context) => DependencyInjection.getIt<SortCubit>()),
+          ],
+          child:SearchScreen()));
 
 
         /// More Movie Screen
@@ -147,11 +157,7 @@ class AppRouter {
 
     /// My List Screen
       case AppRouteNames.myList:
-        return  MaterialPageRoute(builder: (_) =>
-            BlocProvider(
-              create: (context) => DependencyInjection.getIt<SavedMoviesCubit>(),
-              child: MyListScreen(),
-            ));
+        return  MaterialPageRoute(builder: (_) => MyListScreen());
 
 
       default:

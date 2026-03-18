@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie/core/constants/extensions/assets.dart';
@@ -6,6 +7,7 @@ import 'package:movie/core/constants/extensions/context_extension.dart';
 import 'package:movie/core/routing/app_route_names.dart';
 import 'package:movie/features/my_list/logic/saved_movies/saved_movies_cubit.dart';
 import 'package:movie/features/my_list/ui/widget/button_custom.dart';
+import 'package:movie/features/navigation_screen/logic/bottom_navigation_bar/nav_cubit.dart';
 
 class MyListScreen extends StatelessWidget {
   const MyListScreen({super.key});
@@ -18,8 +20,8 @@ class MyListScreen extends StatelessWidget {
 
           actions: [
             IconButton(onPressed: (){
-              Navigator.pushNamed(context, AppRouteNames.search);
-            }, icon: Icon(Icons.search))
+              context.read<NavCubit>().changeIndex(1);
+            }, icon: const Icon(Icons.search))
           ],
         ),
         body: BlocBuilder<SavedMoviesCubit, SavedMoviesState>(
@@ -35,9 +37,9 @@ class MyListScreen extends StatelessWidget {
                   children: [
                     Center(child: Image.asset(context.isDark? Assets.isEmptyImageDark : Assets.isEmptyImage)),
                     SizedBox(height: 50,),
-                    Text("Your List is Empty" , style: TextStyle(color: context.primaryColor , fontSize: 20 , fontWeight: FontWeight.bold , fontFamily: Assets.cairoFont),),
+                    Text("your_list_is_empty".tr() , style: TextStyle(color: context.primaryColor , fontSize: 20 , fontWeight: FontWeight.bold , fontFamily: Assets.cairoFont),),
                     SizedBox(height: 20,),
-                    Text("it seems that you haven't added \n any movies to the list" , style: TextStyle(fontSize: 16 , fontFamily: Assets.cairoFont) , textAlign: TextAlign.center,)
+                    Text("list_empty_message".tr() , style: TextStyle(fontSize: 16 , fontFamily: Assets.cairoFont) , textAlign: TextAlign.center,)
                   ],
                 );
               }
@@ -75,8 +77,8 @@ class MyListScreen extends StatelessWidget {
                                 context: context,
                                 dialogType: DialogType.warning,
                                 animType: AnimType.scale,
-                                title: 'Confirm Delete',
-                                desc: 'Are you sure you want to clear the list?',
+                                title: 'confirm_delete'.tr(),
+                                desc: 'clear_list_question'.tr(),
                                 btnCancelOnPress: () {},
                                 btnOkOnPress: () {
                                   context.read<SavedMoviesCubit>().clearMovies();

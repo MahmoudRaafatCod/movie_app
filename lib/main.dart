@@ -12,11 +12,17 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await dotenv.load(fileName: ".env");
+
   Bingo.setup();
+  
   Bingo.register<GenresModel>((json) => GenresModel.fromJson(json));
   Bingo.register<GenreModel>((json) => GenreModel.fromJson(json));
   DependencyInjection.init();
 
-  runApp(EasyLocalization(supportedLocales: [Locale("en"), Locale("ar")], path: "assets/translations", fallbackLocale: Locale("en"), child: MovieApp()));
-
+  runApp(EasyLocalization(
+    supportedLocales: [Locale("en"), Locale("ar")], 
+    path: "assets/translations", 
+    fallbackLocale: Locale("en"), 
+    child: const MovieApp()
+  ));
 }
