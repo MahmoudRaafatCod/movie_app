@@ -10,7 +10,6 @@ class DioConsumer extends ApiConsumer {
     _dio.options.baseUrl = "https://api.themoviedb.org/3";
     _dio.options.headers = {
       "Authorization": dotenv.env['API_TOKEN'],
-      // "Authorization": "Token Here",
       "accept": "application/json",};
     // _dio.interceptors.add(LogInterceptor(request: true, requestHeader: true, responseHeader: true, requestBody: true, responseBody: true));
   }

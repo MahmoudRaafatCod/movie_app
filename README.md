@@ -55,14 +55,19 @@ The project is organized by features to ensure scalability and maintainability:
 
 ```text
 lib/
-├── core/               # Shared logic, themes, routing, and network config
-├── features/           # Individual app features (UI, Logic, Data)
-│   ├── home_screen/    # Main dashboard and sliders
-│   ├── movie_details/  # Movie info and trailers
-│   ├── search_screen/  # Search functionality
-│   ├── my_list/        # Saved/Favorite movies
-│   └── profile/        # App settings (Language, Theme, etc.)
-└── main.dart           # App entry point
+├── core/                   # Shared logic, themes, routing, and network config
+├── features/               # Individual app features (UI, Logic, Data)
+│   ├── home_screen/        # Main dashboard and movie sliders
+│   ├── movie_details/      # Detailed info for movies
+│   ├── tv_details/         # Detailed info for TV shows
+│   ├── tv_episodes_derails/# TV show episodes and seasons details
+│   ├── actor_details/      # Actor biographies and filmography
+│   ├── search_screen/      # Search for movies, TV shows, and actors
+│   ├── more_movie_screen/  # Paginated lists for categories (Top Rated, etc.)
+│   ├── my_list/            # Saved/Favorite movies and TV shows
+│   ├── profile/            # App settings (Language, Theme, etc.)
+│   └── navigation_screen/  # Main navigation wrapper
+└── main.dart               # App entry point
 ```
 
 ---
@@ -76,7 +81,7 @@ lib/
 ### Installation
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/MahmoudRaafatCod/movie-app.git
+    git clone https://github.com/MahmoudRaafatCod/movie_app.git
     ```
 2.  Install dependencies:
     ```bash

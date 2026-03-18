@@ -1,6 +1,5 @@
 import 'package:movie/core/constants/local_storage/local_storage_app.dart';
 import 'package:movie/core/network/api_consumer.dart';
-import 'package:movie/core/network/api_service.dart';
 import 'package:movie/features/home_screen/data/models/genres_model.dart';
 import 'package:movie/features/home_screen/data/models/trending_movie_model.dart';
 
@@ -54,8 +53,8 @@ class HomeRepo {
       if (LocalStorageApp.currentGenres != null) {
         return LocalStorageApp.currentGenres!;
       } else {
-        final res = await ApiService.dio.get("/genre/movie/list");
-        GenresModel model = GenresModel.fromJson(res.data);
+        final res = await _api.get("/genre/movie/list");
+        GenresModel model = GenresModel.fromJson(res);
         LocalStorageApp.setGenres(model);
         return model;
       }
