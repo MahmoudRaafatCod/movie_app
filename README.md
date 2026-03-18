@@ -138,4 +138,3 @@ lib/
 **[Mahmoud]**
 
 Made with ❤️ using Flutter.
-تم التطوير بكل ❤️ باستخدام Flutter.
