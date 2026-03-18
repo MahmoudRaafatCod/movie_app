@@ -55,19 +55,19 @@ The project is organized by features to ensure scalability and maintainability:
 
 ```text
 lib/
-├── core/                   # Shared logic, themes, routing, and network config
-├── features/               # Individual app features (UI, Logic, Data)
-│   ├── home_screen/        # Main dashboard and movie sliders
-│   ├── movie_details/      # Detailed info for movies
-│   ├── tv_details/         # Detailed info for TV shows
-│   ├── tv_episodes_derails/# TV show episodes and seasons details
-│   ├── actor_details/      # Actor biographies and filmography
-│   ├── search_screen/      # Search for movies, TV shows, and actors
-│   ├── more_movie_screen/  # Paginated lists for categories (Top Rated, etc.)
-│   ├── my_list/            # Saved/Favorite movies and TV shows
-│   ├── profile/            # App settings (Language, Theme, etc.)
-│   └── navigation_screen/  # Main navigation wrapper
-└── main.dart               # App entry point
+├── core/                   # المنطق المشترك، السمات، التوجيه، وإعدادات الشبكة
+├── features/               # ميزات التطبيق الفردية (واجهة المستخدم، المنطق، البيانات)
+│   ├── home_screen/        # لوحة التحكم الرئيسية وسلايدرات الأفلام
+│   ├── movie_details/      # معلومات مفصلة عن الأفلام
+│   ├── tv_details/         # معلومات مفصلة عن المسلسلات
+│   ├── tv_episodes_derails/# تفاصيل الحلقات والمواسم للمسلسلات
+│   ├── actor_details/      # السيرة الذاتية للممثلين وأعمالهم
+│   ├── search_screen/      # البحث عن الأفلام والمسلسلات والممثلين
+│   ├── more_movie_screen/  # قوائم مرقمة للفئات (الأعلى تقييماً، إلخ)
+│   ├── my_list/            # الأفلام والمسلسلات المفضلة المحفوظة
+│   ├── profile/            # إعدادات التطبيق (اللغة، المظهر، إلخ)
+│   └── navigation_screen/  # التغليف الرئيسي للتنقل السفلي
+└── main.dart               # نقطة انطلاق التطبيق
 ```
 
 ---
@@ -76,7 +76,7 @@ lib/
 
 ### Prerequisites
 *   Flutter SDK installed.
-*   TMDB API Key (Add it to your `.env` file).
+*   TMDB API Key (Add it to your `lib/.env` file).
 
 ### Installation
 1.  Clone the repository:
