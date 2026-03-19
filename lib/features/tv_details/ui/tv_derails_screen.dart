@@ -242,7 +242,7 @@ class TvDerailsScreen extends StatelessWidget {
                             children: [
                               Text("Episodes", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),),
                               DropdownButton<int>(
-                                value: context.read<TvDetailsCubit>().selectedSeason ,
+                                value: context.watch<TvDetailsCubit>().selectedSeason,
                                 underline: const SizedBox(),
                                 dropdownColor: context.appBarColor,
                                 style: TextStyle(

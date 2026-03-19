@@ -23,6 +23,9 @@ class TvDetailsCubit extends Cubit<TvDetailsState> {
     emit(TvDetailsLoading());
     try {
       _repo.getTvShowDetails(id).then((value) {
+
+        selectedSeason = value.seasons.first.seasonNumber;
+
         emit(TvDetailsSuccess(value));
       });
     } catch (e) {

@@ -7,7 +7,6 @@ class TrendingMovieModel {
 
   factory TrendingMovieModel.fromJson(Map<String, dynamic> json) {
     if (json["results"] == null) {
-      print("🚨 API ERROR FULL RESPONSE: $json");
       throw Exception("results is null");
     }
 
