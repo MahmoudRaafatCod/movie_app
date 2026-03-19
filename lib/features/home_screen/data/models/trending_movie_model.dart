@@ -5,11 +5,18 @@ class TrendingMovieModel {
 
   TrendingMovieModel({required this.results});
 
-  factory TrendingMovieModel.fromJson(Map<String, dynamic> json) => TrendingMovieModel(
-    results: json["results"] != null
-        ? List<TrendingMovieResultsModel>.from(json["results"].map((x) => TrendingMovieResultsModel.fromJson(x)))
-        : [],
-  );
+  factory TrendingMovieModel.fromJson(Map<String, dynamic> json) {
+    if (json["results"] == null) {
+      print("🚨 API ERROR FULL RESPONSE: $json");
+      throw Exception("results is null");
+    }
+
+    return TrendingMovieModel(
+      results: List<TrendingMovieResultsModel>.from(
+        json["results"].map((x) => TrendingMovieResultsModel.fromJson(x)),
+      ),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "results": List<dynamic>.from(results.map((x) => x.toJson())),
