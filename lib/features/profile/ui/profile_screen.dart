@@ -30,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
                 title: 'language'.tr(),
                 trailing: DropdownButton(
                   value: context.locale.languageCode,
-                  underline: SizedBox(),
+                  underline: const SizedBox(),
                   items: [
                     DropdownMenuItem(
                       value: 'ar',
@@ -75,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                      SnackBar(
                       content: Text("coming_soon".tr()),
-                      duration: Duration(seconds: 2),
+                      duration: const Duration(seconds: 2),
                     ),
                   );
                 },
@@ -85,9 +85,9 @@ class ProfileScreen extends StatelessWidget {
                 icon: Icons.privacy_tip_outlined,
                 title: 'privacy_policy'.tr(),
                 onTap: () {
-                  SnackBar(
-                    content: Text("coming_soon".tr()),
-                    duration: Duration(seconds: 2),
+                    SnackBar(
+                      content: Text("coming_soon".tr()),
+                      duration: const Duration(seconds: 2),
                   );
                 },
               ),
@@ -96,9 +96,11 @@ class ProfileScreen extends StatelessWidget {
                 icon: Icons.help_outline,
                 title: 'help_center'.tr(),
                 onTap: () {
-                  SnackBar(
-                    content: Text("coming_soon".tr()),
-                    duration: Duration(seconds: 2),
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("coming_soon".tr()),
+                      duration: const Duration(seconds: 2),
+                    ),
                   );
                 },
               ),
@@ -112,9 +114,11 @@ class ProfileScreen extends StatelessWidget {
                 title: 'logout'.tr(),
                 iconColor: Colors.red,
                 onTap: () {
-                  SnackBar(
-                    content: Text("coming_soon".tr()),
-                    duration: Duration(seconds: 2),
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("coming_soon".tr()),
+                      duration: const Duration(seconds: 2),
+                    ),
                   );
                 },
               ),
