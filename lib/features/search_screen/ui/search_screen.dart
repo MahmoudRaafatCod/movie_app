@@ -141,9 +141,10 @@ class SearchScreen extends StatelessWidget {
                             final movie = state.searchResult[index];
                             return GestureDetector(
                               onTap: () {
-                                if(movie.mediaType == "movie"){
-                                Navigator.pushNamed(context, AppRouteNames.movieDetails, arguments: movie.id);
-                                }else{
+                                final effectiveType = movie.mediaType ?? context.read<SearchCubit>().type;
+                                if (effectiveType == "movie") {
+                                  Navigator.pushNamed(context, AppRouteNames.movieDetails, arguments: movie.id);
+                                } else {
                                   Navigator.pushNamed(context, AppRouteNames.tvDetails, arguments: movie.id);
                                 }
                               },

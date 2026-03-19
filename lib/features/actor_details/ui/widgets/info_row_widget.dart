@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class InfoRowWidget extends StatelessWidget {
   final String label;
-  final String value;
+  final String? value;
 
   const InfoRowWidget({
     super.key,
@@ -12,6 +12,7 @@ class InfoRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (value == null || value!.isEmpty) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
@@ -26,7 +27,7 @@ class InfoRowWidget extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              value,
+              value!,
               style: const TextStyle(fontSize: 14),
             ),
           ),

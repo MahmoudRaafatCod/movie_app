@@ -11,7 +11,7 @@ class DioConsumer extends ApiConsumer {
     _dio.options.headers = {
       "Authorization": dotenv.env['API_TOKEN'],
       "accept": "application/json",};
-    // _dio.interceptors.add(LogInterceptor(request: true, requestHeader: true, responseHeader: true, requestBody: true, responseBody: true));
+    _dio.interceptors.add(LogInterceptor(request: true, requestHeader: true, responseHeader: true, requestBody: true, responseBody: true));
   }
 
   @override

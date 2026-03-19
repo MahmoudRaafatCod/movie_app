@@ -37,7 +37,7 @@ class ActorDetailsScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
                         child: Image.network(
-                          "${Assets.baseUrl}${actor.profilePath}",
+                          actor.profilePath != null ? "${Assets.baseUrl}${actor.profilePath}" : Assets.errorImage,
                           height: 300,
                           width: 200,
                           fit: BoxFit.cover,
@@ -48,7 +48,7 @@ class ActorDetailsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      actor.name,
+                      actor.name ?? "Unknown",
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -56,7 +56,7 @@ class ActorDetailsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      actor.knownForDepartment,
+                      actor.knownForDepartment ?? "N/A",
                       style: TextStyle(
                         fontSize: 16,
                         color: context.primaryColor,
@@ -79,7 +79,7 @@ class ActorDetailsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     ReadMoreText(
-                      actor.biography,
+                      (actor.biography == null || actor.biography!.isEmpty) ? "No biography available." : actor.biography!,
                       trimLines: 5,
                       trimMode: TrimMode.Line,
                       style: const TextStyle(fontSize: 14, height: 1.5),
@@ -133,6 +133,9 @@ class ActorDetailsScreen extends StatelessWidget {
                           if (state is ActorImagesLoading) {
                             return const Center(child: CircularProgressIndicator());
                           } else if (state is ActorImagesSuccess) {
+                            if (state.data.profiles.isEmpty) {
+                              return const Center(child: Text("No photos available"));
+                            }
                             return ListView.separated(
                               scrollDirection: Axis.horizontal,
                               itemCount: state.data.profiles.length,
@@ -175,6 +178,9 @@ class ActorDetailsScreen extends StatelessWidget {
                           if (state is ActorMovieLoading) {
                             return const Center(child: CircularProgressIndicator());
                           } else if (state is ActorMovieSuccess) {
+                            if (state.data.isEmpty) {
+                              return const Center(child: Text("No movies available"));
+                            }
                             return ListView.separated(
                               scrollDirection: Axis.horizontal,
                               itemCount: state.data.length,
@@ -198,7 +204,7 @@ class ActorDetailsScreen extends StatelessWidget {
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.circular(12),
                                             child: Image.network(
-                                              "${Assets.baseUrl}${movie.posterPath}",
+                                              movie.posterPath != null ? "${Assets.baseUrl}${movie.posterPath}" : Assets.errorImage,
                                               fit: BoxFit.cover,
                                               errorBuilder: (context, error, stackTrace) =>
                                                   Image.network(Assets.errorImage, fit: BoxFit.cover),

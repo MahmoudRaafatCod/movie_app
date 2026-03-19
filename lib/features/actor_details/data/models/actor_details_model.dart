@@ -1,7 +1,7 @@
 class ActorDetailsModel {
-  String biography , knownForDepartment , name , placeOfBirth , profilePath;
+  String? biography, knownForDepartment, name, placeOfBirth, profilePath;
   int id;
-  DateTime? birthday , deathday;
+  DateTime? birthday, deathday;
   List<String> alsoKnownAs;
 
   ActorDetailsModel({
@@ -19,15 +19,20 @@ class ActorDetailsModel {
   factory ActorDetailsModel.fromJson(Map<String, dynamic> json) {
     return ActorDetailsModel(
       biography: json['biography'],
-      knownForDepartment : json['known_for_department'],
-      name : json['name'],
-      placeOfBirth : json['place_of_birth'],
-      profilePath : json['profile_path'],
-      id : json['id'],
-      birthday: json['birthday'] != null ? DateTime.parse(json['birthday']) : null,
-      deathday: json['deathday'] != null ? DateTime.parse(json['deathday']) : null,
-      alsoKnownAs: List<String>.from(json['also_known_as']),
+      knownForDepartment: json['known_for_department'],
+      name: json['name'],
+      placeOfBirth: json['place_of_birth'],
+      profilePath: json['profile_path'],
+      id: json['id'] ?? 0,
+      birthday: (json['birthday'] != null && json['birthday'].toString().isNotEmpty)
+          ? DateTime.tryParse(json['birthday'])
+          : null,
+      deathday: (json['deathday'] != null && json['deathday'].toString().isNotEmpty)
+          ? DateTime.tryParse(json['deathday'])
+          : null,
+      alsoKnownAs: json['also_known_as'] != null
+          ? List<String>.from(json['also_known_as'])
+          : [],
     );
   }
-
 }

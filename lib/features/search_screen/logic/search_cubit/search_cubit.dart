@@ -27,27 +27,29 @@ class SearchCubit extends Cubit<SearchState> {
     genreId.clear();
   }
 
+
+  List<int> genreId = [];
+  String? language;
+  int? year;
+  String type = "movie";
+  String? sortBy;
+
   void setLanguage(String? newLang) => language = newLang;
 
-  void setType(String? newType) => type = newType;
+  void setType(String newType) => type = newType;
 
   void setSortBy(String? newSort) => sortBy = newSort;
 
   void setYear(int? newYear) => year = newYear;
 
-  List<int> genreId = [];
-  String? language;
-  int? year;
-  String? type;
-  String? sortBy;
-
   void filter() {
+    emit(SearchLoading());
     _repo
         .filterSearch(
           genreId,
           language,
           year,
-          type ?? "movie",
+          type,
           sortBy ?? "popularity.desc",
         )
         .then((value) {
@@ -68,8 +70,6 @@ class SearchCubit extends Cubit<SearchState> {
           emit(SearchError(value.toString()));
         }
       });
-    } else if (type != null) {
-      filter();
     } else {
       search();
     }
