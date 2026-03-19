@@ -38,11 +38,11 @@ class MoreMovieScreen extends StatelessWidget {
                             final movie = state.movies[index];
                             return GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  AppRouteNames.movieDetails,
-                                  arguments: movie.id,
-                                );
+                                if(context.read<DataMoveCubit>().args.isTVShow){
+                                  Navigator.pushNamed(context, AppRouteNames.tvDetails, arguments: movie.id,);
+                                } else {
+                                Navigator.pushNamed(context, AppRouteNames.movieDetails, arguments: movie.id,);
+                                }
                               },
                               child: Container(
                                 width: 180,
